@@ -23,6 +23,7 @@ const BoxCard: FC<BoxCardProps> = ({ children, description, href, title, image, 
   return (
     <a
       href={href}
+      target="_blank"
       className={cn({
         group: href,
       })}
