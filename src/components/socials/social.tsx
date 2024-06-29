@@ -10,7 +10,7 @@ const SocialLink: FC<SocialLinkProps> = ({ href, icon }) => {
     <a
       href={href}
       target="_blank"
-      className="*:size-9"
+      className="*:size-9 hover:text-purple-400 group-focus-within:text-purple-400"
     >
       {icon}
     </a>

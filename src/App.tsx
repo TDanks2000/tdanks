@@ -3,6 +3,9 @@ import BoxCard from '@/components/cards/box';
 import NameComponent from '@/components/name';
 import SocailsComponent from '@/components/socials';
 import { ThemeProvider } from '@/components/theme-provider';
+import { BiLogoTypescript } from 'react-icons/bi';
+import { IoLogoReact } from 'react-icons/io5';
+import { SiPrisma, SiShadcnui, SiSupabase, SiTailwindcss } from 'react-icons/si';
 
 function App() {
   return (
@@ -11,7 +14,7 @@ function App() {
       storageKey="game-tracking-app-theme"
     >
       <Background />
-      <div className="h-screen w-screen flex flex-col justify-center items-center gap-10">
+      <div className="flex flex-col items-center justify-start w-screen h-screen gap-10 px-5 py-20 sm:p-6 sm:justify-center">
         <div className="flex flex-col gap-4">
           <NameComponent />
           <SocailsComponent />
@@ -23,6 +26,34 @@ function App() {
             image="https://gamesrecaped.tdanks.com/logo.png"
             title="GamesRecapped"
             github="https://github.com/tdanks2000/gamesrecaped"
+            stack={[
+              {
+                icon: <BiLogoTypescript />,
+                name: 'Typescript',
+                href: 'https://www.typescriptlang.org/',
+              },
+              {
+                icon: <IoLogoReact />,
+                name: 'React',
+                href: 'https://react.dev/',
+              },
+              {
+                icon: <SiSupabase />,
+                name: 'Supabase',
+                href: 'https://supabase.com/',
+              },
+              {
+                icon: <SiPrisma />,
+                name: 'Prisma',
+                href: 'https://www.prisma.io/',
+              },
+              {
+                icon: <SiShadcnui />,
+                name: 'Shadcn UI',
+                href: 'https://ui.shadcn.com/',
+              },
+              { icon: <SiTailwindcss />, name: 'Tailwind', href: 'https://tailwindcss.com/' },
+            ]}
           />
         </div>
       </div>
