@@ -1,3 +1,4 @@
+import AboutMe from '@/components/aboutMe';
 import Background from '@/components/bg';
 import BoxCard from '@/components/cards/box';
 import NameComponent from '@/components/name';
@@ -14,7 +15,7 @@ function App() {
       storageKey="game-tracking-app-theme"
     >
       <Background />
-      <div className="flex flex-col items-center justify-start w-screen h-screen gap-10 px-5 py-20 sm:p-6 sm:justify-center">
+      <div className="flex flex-col items-center justify-start w-full h-full gap-10 px-5 py-20 sm:p-6 sm:pt-32 sm:justify-center">
         <div className="flex flex-col gap-4">
           <NameComponent />
           <SocailsComponent />
@@ -55,6 +56,10 @@ function App() {
               { icon: <SiTailwindcss />, name: 'Tailwind', href: 'https://tailwindcss.com/' },
             ]}
           />
+        </div>
+
+        <div className="w-full p-6 sm:p-10 sm:px-28 ">
+          <AboutMe />
         </div>
       </div>
     </ThemeProvider>
