@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "destination": "/index.html",
+      "has": [
+        {
+          "type": "file",
+          "value": "/index.html"
+        }
+      ],
+      "source": "/(.*)"
+    }
+  ]
+}
