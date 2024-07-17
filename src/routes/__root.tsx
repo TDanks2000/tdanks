@@ -1,3 +1,5 @@
+import '../styles/globals.css';
+
 import Background from '@/components/bg';
 import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
