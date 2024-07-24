@@ -1,13 +1,17 @@
-import { cn } from '@/lib/utils';
-import { FC, HtmlHTMLAttributes, PropsWithChildren } from 'react';
+import { cn } from "@/lib/utils";
+import { FC, HtmlHTMLAttributes, PropsWithChildren } from "react";
 
 interface RainbowTextProps extends HtmlHTMLAttributes<HTMLSpanElement> {}
 
-const RainbowText: FC<PropsWithChildren<RainbowTextProps>> = ({ children: text, className, ...rest }) => {
+const RainbowText: FC<PropsWithChildren<RainbowTextProps>> = ({
+  children: text,
+  className,
+  ...rest
+}) => {
   return (
     <span
       className={cn([
-        'text-transparent bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text',
+        "text-transparent bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text animate-gradient-xy",
         className,
       ])}
       {...rest}

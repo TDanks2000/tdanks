@@ -66,15 +66,46 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        background: {
-          "0%, 100%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
+        "gradient-y": {
+          "0%, 100%": {
+            "background-size": "400% 400%",
+            "background-position": "center top",
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "center center",
+          },
+        },
+        "gradient-x": {
+          "0%, 100%": {
+            "background-size": "200% 200%",
+            "background-position": "left center",
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "right center",
+          },
+        },
+        "gradient-xy": {
+          "0%, 100%": {
+            "background-size": "400% 400%",
+            "background-position": "left center",
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "right center",
+          },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        border: "background ease infinite",
+        "gradient-x":
+          "gradient-x 20s cubic-bezier(0.15, 0.29, 0.93, 0.52) infinite",
+        "gradient-y":
+          "gradient-y 20s cubic-bezier(0.15, 0.29, 0.93, 0.52) infinite",
+        "gradient-xy":
+          "gradient-xy 20s cubic-bezier(0.15, 0.29, 0.93, 0.52) infinite",
       },
     },
   },
