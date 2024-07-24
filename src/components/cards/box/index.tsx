@@ -1,9 +1,18 @@
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
-import { CircleHelp } from 'lucide-react';
-import { type FC, type PropsWithChildren } from 'react';
-import { IoLogoGithub } from 'react-icons/io5';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { CircleHelp } from "lucide-react";
+import { type FC, type PropsWithChildren } from "react";
+import { IoLogoGithub } from "react-icons/io5";
 
 interface BoxCardProps extends PropsWithChildren {
   href?: string;
@@ -19,7 +28,16 @@ interface BoxCardProps extends PropsWithChildren {
   }>;
 }
 
-const BoxCard: FC<BoxCardProps> = ({ children, description, href, title, image, icon, github, stack }) => {
+const BoxCard: FC<BoxCardProps> = ({
+  children,
+  description,
+  href,
+  title,
+  image,
+  icon,
+  github,
+  stack,
+}) => {
   return (
     <a
       href={href}
@@ -46,14 +64,16 @@ const BoxCard: FC<BoxCardProps> = ({ children, description, href, title, image, 
                 )}
               </div>
               <div>
-                <h2 className="transition-all line-clamp-1 group-hover:underline group-focus-within:underline">
+                <h2 className="transition-all line-clamp-1 group-hover:underline underline-offset-2 group-focus-within:underline">
                   {title}
                 </h2>
               </div>
             </div>
           </CardHeader>
           <CardContent>
-            <p className="overflow-hidden text-sm line-clamp-4">{description}</p>
+            <p className="overflow-hidden text-sm line-clamp-4">
+              {description}
+            </p>
             <p>{children}</p>
           </CardContent>
 
@@ -64,10 +84,12 @@ const BoxCard: FC<BoxCardProps> = ({ children, description, href, title, image, 
                   <a
                     href={github}
                     target="_blank"
-                    className="flex flex-row items-center gap-2 text-sm hover:underline focus-within:underline"
+                    className="flex flex-row relative overflow-hidden items-center gap-2 text-sm hover:underline underline-offset-2 focus-within:underline group/github"
                   >
-                    <IoLogoGithub className="size-6" />
-                    <p>Github</p>
+                    <IoLogoGithub className="size-6 relative z-10" />
+                    <p className="relative -left-5 opacity-0 group-focus-within/github:opacity-100 group-hover/github:left-0 group-hover/github:opacity-100 z-2 transition-all">
+                      Github
+                    </p>
                   </a>
                 </div>
               )}
@@ -84,14 +106,16 @@ const BoxCard: FC<BoxCardProps> = ({ children, description, href, title, image, 
                           className="flex flex-row items-center text-sm group"
                         >
                           <span className="hover:text-purple-400 focus-within:text-purple-400">
-                            {typeof stack.icon === 'string' ? (
+                            {typeof stack.icon === "string" ? (
                               <img
-                                className="object-cover overflow-hidden rounded-md size-4"
+                                className="object-cover overflow-hidden rounded-md size-4 sm:size-5"
                                 src={stack.icon}
                                 alt={stack.name}
                               />
                             ) : (
-                              <span className="*:text-inherit *:size-4">{stack.icon} </span>
+                              <span className="*:text-inherit *:size-4 sm:*:size-5">
+                                {stack.icon}{" "}
+                              </span>
                             )}
                           </span>
                         </a>
