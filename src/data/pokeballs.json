@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Poke Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+  },
+  {
+    "name": "Great Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/great-ball.png"
+  },
+  {
+    "name": "Ultra Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png"
+  },
+  {
+    "name": "Master Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png"
+  },
+  {
+    "name": "Safari Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/safari-ball.png"
+  },
+  {
+    "name": "Dive Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/level-ball.png"
+  },
+  {
+    "name": "Lure Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/lure-ball.png"
+  },
+  {
+    "name": "Moon Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/moon-ball.png"
+  },
+  {
+    "name": "Friend Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/friend-ball.png"
+  },
+  {
+    "name": "Love Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/love-ball.png"
+  },
+  {
+    "name": "Heavy Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/heavy-ball.png"
+  },
+  {
+    "name": "Fast Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/fast-ball.png"
+  },
+  {
+    "name": "Sport Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/sport-ball.png"
+  },
+  {
+    "name": "Premier Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/premier-ball.png"
+  },
+  {
+    "name": "Repeat Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/repeat-ball.png"
+  },
+  {
+    "name": "Timer Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/timer-ball.png"
+  },
+  {
+    "name": "Nest Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nest-ball.png"
+  },
+  {
+    "name": "Net Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/net-ball.png"
+  },
+  {
+    "name": "Dive Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dive-ball.png"
+  },
+  {
+    "name": "Luxury Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/luxury-ball.png"
+  },
+  {
+    "name": "Heal Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/heal-ball.png"
+  },
+  {
+    "name": "Quick Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/quick-ball.png"
+  },
+  {
+    "name": "Dusk Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dusk-ball.png"
+  },
+  {
+    "name": "Cherish Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cherish-ball.png"
+  },
+  {
+    "name": "Park Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/park-ball.png"
+  },
+  {
+    "name": "Dream Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dream-ball.png"
+  },
+  {
+    "name": "Beast Ball",
+    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/beast-ball.png"
+  }
+]

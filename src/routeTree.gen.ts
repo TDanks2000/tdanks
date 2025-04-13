@@ -16,10 +16,19 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const PokemonCatcherLazyImport = createFileRoute('/pokemon-catcher')()
 const IndexLazyImport = createFileRoute('/')()
 const MentalHealthQuoteLazyImport = createFileRoute('/mental-health/quote')()
 
 // Create/Update Routes
+
+const PokemonCatcherLazyRoute = PokemonCatcherLazyImport.update({
+  id: '/pokemon-catcher',
+  path: '/pokemon-catcher',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/pokemon-catcher.lazy').then((d) => d.Route),
+)
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
@@ -46,6 +55,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/pokemon-catcher': {
+      id: '/pokemon-catcher'
+      path: '/pokemon-catcher'
+      fullPath: '/pokemon-catcher'
+      preLoaderRoute: typeof PokemonCatcherLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/mental-health/quote': {
       id: '/mental-health/quote'
       path: '/mental-health/quote'
@@ -60,36 +76,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/pokemon-catcher': typeof PokemonCatcherLazyRoute
   '/mental-health/quote': typeof MentalHealthQuoteLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/pokemon-catcher': typeof PokemonCatcherLazyRoute
   '/mental-health/quote': typeof MentalHealthQuoteLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/pokemon-catcher': typeof PokemonCatcherLazyRoute
   '/mental-health/quote': typeof MentalHealthQuoteLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/mental-health/quote'
+  fullPaths: '/' | '/pokemon-catcher' | '/mental-health/quote'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/mental-health/quote'
-  id: '__root__' | '/' | '/mental-health/quote'
+  to: '/' | '/pokemon-catcher' | '/mental-health/quote'
+  id: '__root__' | '/' | '/pokemon-catcher' | '/mental-health/quote'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  PokemonCatcherLazyRoute: typeof PokemonCatcherLazyRoute
   MentalHealthQuoteLazyRoute: typeof MentalHealthQuoteLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  PokemonCatcherLazyRoute: PokemonCatcherLazyRoute,
   MentalHealthQuoteLazyRoute: MentalHealthQuoteLazyRoute,
 }
 
@@ -104,11 +125,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/pokemon-catcher",
         "/mental-health/quote"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/pokemon-catcher": {
+      "filePath": "pokemon-catcher.lazy.tsx"
     },
     "/mental-health/quote": {
       "filePath": "mental-health/quote.lazy.tsx"
