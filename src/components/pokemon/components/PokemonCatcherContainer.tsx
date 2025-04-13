@@ -128,7 +128,7 @@ const PokemonCatcherContainer = () => {
     <div
       ref={containerRef}
       className={cn(
-        "fixed inset-0 w-screen h-screen overflow-hidden flex flex-col justify-between items-center p-4 md:p-8",
+        "fixed inset-0 w-svw h-svh overflow-hidden flex flex-col justify-between items-center p-4 md:p-8",
         "bg-gradient-to-b from-primary/20 via-primary/30 to-primary/40",
         "dark:from-background dark:via-background/90 dark:to-background/80",
         "animate-gradient-xy"
