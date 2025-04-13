@@ -1,23 +1,18 @@
-import { cn } from "@/lib/utils";
-import { FC, HtmlHTMLAttributes, PropsWithChildren } from "react";
+import { HtmlHTMLAttributes, PropsWithChildren } from "react";
+import { MotionRainbowText } from "./framer-animations";
 
 interface RainbowTextProps extends HtmlHTMLAttributes<HTMLSpanElement> {}
 
-const RainbowText: FC<PropsWithChildren<RainbowTextProps>> = ({
+// This component now uses the Framer Motion enhanced version for better performance
+const RainbowText = ({
   children: text,
   className,
   ...rest
-}) => {
+}: PropsWithChildren<RainbowTextProps>) => {
   return (
-    <span
-      className={cn([
-        "text-transparent bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text animate-gradient-xy",
-        className,
-      ])}
-      {...rest}
-    >
+    <MotionRainbowText className={className} {...rest}>
       {text}
-    </span>
+    </MotionRainbowText>
   );
 };
 

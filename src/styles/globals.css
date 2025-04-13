@@ -2,6 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .animate-gradient-xy {
+    background-size: 200% 200%;
+    animation: gradient-xy 10s ease infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-in-out;
+  }
+
+  @keyframes gradient-xy {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(20deg);
+  }
+  75% {
+    transform: rotate(-15deg);
+  }
+}
+
+.animate-wave {
+  animation: wave 1.5s infinite;
+  transform-origin: 70% 70%;
+  display: inline-block;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -66,5 +119,11 @@
   body {
     @apply bg-background text-foreground;
     font-family: "Open Sans", sans-serif;
+  }
+
+  @keyframes typing {
+    from {
+      width: 0ch;
+    }
   }
 }

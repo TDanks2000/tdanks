@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { CircleHelp } from "lucide-react";
-import { type FC, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import { IoLogoGithub } from "react-icons/io5";
 
 interface BoxCardProps extends PropsWithChildren {
@@ -28,7 +28,7 @@ interface BoxCardProps extends PropsWithChildren {
   }>;
 }
 
-const BoxCard: FC<BoxCardProps> = ({
+const BoxCard = ({
   children,
   description,
   href,
@@ -37,22 +37,25 @@ const BoxCard: FC<BoxCardProps> = ({
   icon,
   github,
   stack,
-}) => {
+}: BoxCardProps) => {
   return (
     <a
       href={href}
       target="_blank"
+      rel="noopener noreferrer"
       className={cn({
         group: href,
       })}
     >
-      <Card className="transition-all group-hover:bg-primary/5 group-focus-within:bg-primary/5">
-        <div className="overflow-hidden w-full sm:max-w-[340px] min-w-52 h-60 min-h-16">
+      <Card className="transition-all duration-300 size-full border border-border/50 hover:border-purple-500/30 group-hover:shadow-lg group-hover:shadow-purple-500/10 group-hover:bg-primary/5 group-focus-within:bg-primary/5">
+        <div className="overflow-hidden w-full size-full">
           <CardHeader>
-            <div className="flex flex-row items-end w-full gap-4 overflow-hidden h-11">
-              <div className="size-10">
+            <div className="flex flex-row items-center w-full gap-4 overflow-hidden">
+              <div className="flex  size-12 rounded-lg shadow-sm">
                 {icon ? (
-                  <div className="*:size-full">{icon}</div>
+                  <div className="*:size-full text-purple-500 shrink-0 grow-0">
+                    {icon}
+                  </div>
                 ) : image ? (
                   <img
                     className="object-cover overflow-hidden rounded-md size-full"
@@ -64,17 +67,17 @@ const BoxCard: FC<BoxCardProps> = ({
                 )}
               </div>
               <div>
-                <h2 className="transition-all line-clamp-1 group-hover:underline underline-offset-2 group-focus-within:underline">
+                <h2 className="text-xl font-bold transition-all line-clamp-1 group-hover:text-purple-400 group-hover:underline underline-offset-2 group-focus-within:underline">
                   {title}
                 </h2>
               </div>
             </div>
           </CardHeader>
           <CardContent>
-            <p className="overflow-hidden text-sm line-clamp-4">
+            <p className="overflow-hidden text-sm text-muted-foreground line-clamp-4 mt-2">
               {description}
             </p>
-            <p>{children}</p>
+            {children && <div className="mt-4">{children}</div>}
           </CardContent>
 
           <CardFooter>
@@ -84,10 +87,10 @@ const BoxCard: FC<BoxCardProps> = ({
                   <a
                     href={github}
                     target="_blank"
-                    className="flex flex-row relative overflow-hidden items-center gap-2 text-sm hover:underline underline-offset-2 focus-within:underline group/github"
+                    className="relative flex flex-row items-center gap-2 overflow-hidden text-sm hover:underline underline-offset-2 focus-within:underline group/github"
                   >
-                    <IoLogoGithub className="size-6 relative z-10" />
-                    <p className="relative -left-5 opacity-0 group-focus-within/github:opacity-100 group-hover/github:left-0 group-hover/github:opacity-100 z-2 transition-all">
+                    <IoLogoGithub className="relative z-10 size-6" />
+                    <p className="relative transition-all opacity-0 -left-5 group-focus-within/github:opacity-100 group-hover/github:left-0 group-hover/github:opacity-100 z-2">
                       Github
                     </p>
                   </a>
