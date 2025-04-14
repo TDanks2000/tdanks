@@ -49,6 +49,25 @@
   }
 }
 
+/* Custom Pokedex scrollbar */
+.pokedex-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pokedex-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.pokedex-scrollbar::-webkit-scrollbar-thumb {
+  background: #e53e3e;
+  border-radius: 10px;
+}
+
+.pokedex-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #c53030;
+}
+
 .animate-wave {
   animation: wave 1.5s infinite;
   transform-origin: 70% 70%;

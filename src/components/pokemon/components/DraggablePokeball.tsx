@@ -1,11 +1,11 @@
 import { motion, MotionValue, PanInfo } from "framer-motion";
 import React from "react";
-import { Data } from "../types/pokemon";
+import { Data, PokemonData } from "../types/pokemon";
 import { DEFAULT_POKEBALL_URL } from "../utils/pokemonUtils";
 
 interface DraggablePokeBallProps {
   isThrown: boolean;
-  caughtPokemon: Data | null;
+  caughtPokemon: PokemonData | null;
   currentPokeball: Data | null;
   springX: MotionValue<number>;
   springY: MotionValue<number>;

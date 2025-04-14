@@ -1,262 +1,69 @@
-[
-  {
-    "name": "Bulbasaur",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
-  },
-  {
-    "name": "Ivysaur",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"
-  },
-  {
-    "name": "Venusaur",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"
-  },
-  {
-    "name": "Charmander",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
-  },
-  {
-    "name": "Charmeleon",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"
-  },
-  {
-    "name": "Charizard",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
-  },
-  {
-    "name": "Squirtle",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"
-  },
-  {
-    "name": "Wartortle",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png"
-  },
-  {
-    "name": "Blastoise",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"
-  },
-  {
-    "name": "Caterpie",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png"
-  },
-  {
-    "name": "Metapod",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/11.png"
-  },
-  {
-    "name": "Butterfree",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/12.png"
-  },
-  {
-    "name": "Pidgey",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/16.png"
-  },
-  {
-    "name": "Rattata",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/19.png"
-  },
-  {
-    "name": "Pikachu",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
-  },
-  {
-    "name": "Sandshrew",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/27.png"
-  },
-  {
-    "name": "Nidoran♀",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/29.png"
-  },
-  {
-    "name": "Nidoran♂",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/32.png"
-  },
-  {
-    "name": "Vulpix",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/37.png"
-  },
-  {
-    "name": "Jigglypuff",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/39.png"
-  },
-  {
-    "name": "Meowth",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/52.png"
-  },
-  {
-    "name": "Psyduck",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/54.png"
-  },
-  {
-    "name": "Growlithe",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/58.png"
-  },
-  {
-    "name": "Poliwag",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/60.png"
-  },
-  {
-    "name": "Abra",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png"
-  },
-  {
-    "name": "Machop",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/66.png"
-  },
-  {
-    "name": "Geodude",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/74.png"
-  },
-  {
-    "name": "Slowpoke",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/79.png"
-  },
-  {
-    "name": "Magnemite",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/81.png"
-  },
-  {
-    "name": "Gengar",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png"
-  },
-  {
-    "name": "Onix",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/95.png"
-  },
-  {
-    "name": "Voltorb",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/100.png"
-  },
-  {
-    "name": "Cubone",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/104.png"
-  },
-  {
-    "name": "Hitmonlee",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/106.png"
-  },
-  {
-    "name": "Koffing",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/109.png"
-  },
-  {
-    "name": "Chansey",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/113.png"
-  },
-  {
-    "name": "Scyther",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/123.png"
-  },
-  {
-    "name": "Magikarp",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/129.png"
-  },
-  {
-    "name": "Gyarados",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png"
-  },
-  {
-    "name": "Lapras",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/131.png"
-  },
-  {
-    "name": "Ditto",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"
-  },
-  {
-    "name": "Eevee",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png"
-  },
-  {
-    "name": "Snorlax",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png"
-  },
-  {
-    "name": "Mewtwo",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
-  },
-  {
-    "name": "Mew",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png"
-  },
-  {
-    "name": "Chikorita",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/152.png"
-  },
-  {
-    "name": "Cyndaquil",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/155.png"
-  },
-  {
-    "name": "Totodile",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/158.png"
-  },
-  {
-    "name": "Togepi",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/175.png"
-  },
-  {
-    "name": "Marill",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/183.png"
-  },
-  {
-    "name": "Sudowoodo",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/185.png"
-  },
-  {
-    "name": "Wobbuffet",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/202.png"
-  },
-  {
-    "name": "Scizor",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/212.png"
-  },
-  {
-    "name": "Heracross",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/214.png"
-  },
-  {
-    "name": "Lugia",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/249.png"
-  },
-  {
-    "name": "Ho-Oh",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/250.png"
-  },
-  {
-    "name": "Treecko",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/252.png"
-  },
-  {
-    "name": "Mudkip",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/258.png"
-  },
-  {
-    "name": "Gardevoir",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/282.png"
-  },
-  {
-    "name": "Plusle",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/311.png"
-  },
-  {
-    "name": "Minun",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/312.png"
-  },
-  {
-    "name": "Rayquaza",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/384.png"
-  },
-  {
-    "name": "Lucario",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/448.png"
-  },
-  {
-    "name": "Greninja",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/658.png"
-  },
-  {
-    "name": "Zeraora",
-    "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/807.png"
-  }
-]
+{
+  "pokemon": [
+    { "name": "Bulbasaur", "pokedexNumber": "001", "id": 1 },
+    { "name": "Ivysaur", "pokedexNumber": "002", "id": 2 },
+    { "name": "Venusaur", "pokedexNumber": "003", "id": 3 },
+    { "name": "Charmander", "pokedexNumber": "004", "id": 4 },
+    { "name": "Charmeleon", "pokedexNumber": "005", "id": 5 },
+    { "name": "Charizard", "pokedexNumber": "006", "id": 6 },
+    { "name": "Squirtle", "pokedexNumber": "007", "id": 7 },
+    { "name": "Wartortle", "pokedexNumber": "008", "id": 8 },
+    { "name": "Blastoise", "pokedexNumber": "009", "id": 9 },
+    { "name": "Caterpie", "pokedexNumber": "010", "id": 10 },
+    { "name": "Metapod", "pokedexNumber": "011", "id": 11 },
+    { "name": "Butterfree", "pokedexNumber": "012", "id": 12 },
+    { "name": "Pidgey", "pokedexNumber": "016", "id": 16 },
+    { "name": "Rattata", "pokedexNumber": "019", "id": 19 },
+    { "name": "Pikachu", "pokedexNumber": "025", "id": 25 },
+    { "name": "Sandshrew", "pokedexNumber": "027", "id": 27 },
+    { "name": "Nidoran♀", "pokedexNumber": "029", "id": 29 },
+    { "name": "Nidoran♂", "pokedexNumber": "032", "id": 32 },
+    { "name": "Vulpix", "pokedexNumber": "037", "id": 37 },
+    { "name": "Jigglypuff", "pokedexNumber": "039", "id": 39 },
+    { "name": "Meowth", "pokedexNumber": "052", "id": 52 },
+    { "name": "Psyduck", "pokedexNumber": "054", "id": 54 },
+    { "name": "Growlithe", "pokedexNumber": "058", "id": 58 },
+    { "name": "Poliwag", "pokedexNumber": "060", "id": 60 },
+    { "name": "Abra", "pokedexNumber": "063", "id": 63 },
+    { "name": "Machop", "pokedexNumber": "066", "id": 66 },
+    { "name": "Geodude", "pokedexNumber": "074", "id": 74 },
+    { "name": "Slowpoke", "pokedexNumber": "079", "id": 79 },
+    { "name": "Magnemite", "pokedexNumber": "081", "id": 81 },
+    { "name": "Gengar", "pokedexNumber": "094", "id": 94 },
+    { "name": "Onix", "pokedexNumber": "095", "id": 95 },
+    { "name": "Voltorb", "pokedexNumber": "100", "id": 100 },
+    { "name": "Cubone", "pokedexNumber": "104", "id": 104 },
+    { "name": "Hitmonlee", "pokedexNumber": "106", "id": 106 },
+    { "name": "Koffing", "pokedexNumber": "109", "id": 109 },
+    { "name": "Chansey", "pokedexNumber": "113", "id": 113 },
+    { "name": "Scyther", "pokedexNumber": "123", "id": 123 },
+    { "name": "Magikarp", "pokedexNumber": "129", "id": 129 },
+    { "name": "Gyarados", "pokedexNumber": "130", "id": 130 },
+    { "name": "Lapras", "pokedexNumber": "131", "id": 131 },
+    { "name": "Ditto", "pokedexNumber": "132", "id": 132 },
+    { "name": "Eevee", "pokedexNumber": "133", "id": 133 },
+    { "name": "Snorlax", "pokedexNumber": "143", "id": 143 },
+    { "name": "Mewtwo", "pokedexNumber": "150", "id": 150 },
+    { "name": "Mew", "pokedexNumber": "151", "id": 151 },
+    { "name": "Chikorita", "pokedexNumber": "152", "id": 152 },
+    { "name": "Cyndaquil", "pokedexNumber": "155", "id": 155 },
+    { "name": "Totodile", "pokedexNumber": "158", "id": 158 },
+    { "name": "Togepi", "pokedexNumber": "175", "id": 175 },
+    { "name": "Marill", "pokedexNumber": "183", "id": 183 },
+    { "name": "Sudowoodo", "pokedexNumber": "185", "id": 185 },
+    { "name": "Wobbuffet", "pokedexNumber": "202", "id": 202 },
+    { "name": "Scizor", "pokedexNumber": "212", "id": 212 },
+    { "name": "Heracross", "pokedexNumber": "214", "id": 214 },
+    { "name": "Lugia", "pokedexNumber": "249", "id": 249 },
+    { "name": "Ho-Oh", "pokedexNumber": "250", "id": 250 },
+    { "name": "Treecko", "pokedexNumber": "252", "id": 252 },
+    { "name": "Mudkip", "pokedexNumber": "258", "id": 258 },
+    { "name": "Gardevoir", "pokedexNumber": "282", "id": 282 },
+    { "name": "Plusle", "pokedexNumber": "311", "id": 311 },
+    { "name": "Minun", "pokedexNumber": "312", "id": 312 },
+    { "name": "Rayquaza", "pokedexNumber": "384", "id": 384 },
+    { "name": "Lucario", "pokedexNumber": "448", "id": 448 },
+    { "name": "Greninja", "pokedexNumber": "658", "id": 658 },
+    { "name": "Zeraora", "pokedexNumber": "807", "id": 807 }
+  ]
+}

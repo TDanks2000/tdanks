@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { animate, PanInfo, useMotionValue, useSpring } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Data } from "../types/pokemon";
+import { Data, PokemonData } from "../types/pokemon";
 import { getRandomPokeball, getRandomPokemon } from "../utils/pokemonUtils";
 import { CaughtPokemonDisplay } from "./CaughtPokemonDisplay";
 import { DraggablePokeball } from "./DraggablePokeball";
@@ -10,7 +10,7 @@ import { ThrowAnimation } from "./ThrowAnimation";
 
 const PokemonCatcherContainer = () => {
   // Component State
-  const [caughtPokemon, setCaughtPokemon] = useState<Data | null>(null);
+  const [caughtPokemon, setCaughtPokemon] = useState<PokemonData | null>(null);
   const [showPokeballAnimation, setShowPokeballAnimation] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isThrown, setIsThrown] = useState(false);

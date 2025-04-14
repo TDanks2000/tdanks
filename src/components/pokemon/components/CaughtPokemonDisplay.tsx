@@ -1,6 +1,7 @@
 import { MotionRainbowText } from "@/components/framer-animations";
+import { constants } from "@/data/constants";
 import { AnimatePresence, motion } from "framer-motion";
-import { Data } from "../types/pokemon";
+import { PokemonData } from "../types/pokemon";
 
 interface Position {
   top: number;
@@ -9,7 +10,7 @@ interface Position {
 
 interface CaughtPokemonDisplayProps {
   /** The caught Pokemon data */
-  caughtPokemon: Data | null;
+  caughtPokemon: PokemonData | null;
   /** Whether to show the pokeball animation */
   showPokeballAnimation: boolean;
   /** Position to display the caught Pokemon */
@@ -64,7 +65,11 @@ export const CaughtPokemonDisplay = ({
           Caught <MotionRainbowText>{caughtPokemon.name}</MotionRainbowText>!
         </h2>
         <motion.img
-          src={caughtPokemon.image || "fallback_image_url.png"}
+          src={
+            caughtPokemon.id
+              ? `${constants.pokemon.imageBaseURL}/${caughtPokemon.id}.png`
+              : "fallback_image_url.png"
+          }
           alt={caughtPokemon.name}
           className="object-contain w-[150px] h-[150px] md:w-[200px] md:h-[200px] drop-shadow-xl filter brightness-110"
           initial={{ y: -20, scale: 0.8 }}

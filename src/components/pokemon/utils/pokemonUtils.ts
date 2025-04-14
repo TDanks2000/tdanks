@@ -1,13 +1,19 @@
 import pokeballs from "@/data/pokeballs.json";
-import pokemons from "@/data/pokemons.json";
-import { Data } from "../types/pokemon";
+import pokemonData from "@/data/pokemons.json";
+import { Data, PokemonData } from "../types/pokemon";
 
 export const DEFAULT_POKEBALL_URL =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png";
 
-export const getRandomPokemon = (): Data => {
+const pokemons = pokemonData.pokemon;
+
+export const getRandomPokemon = (): PokemonData => {
   if (!pokemons || pokemons.length === 0) {
-    return { name: "MissingNo.", image: "" };
+    return {
+      name: "Bulbasaur",
+      pokedexNumber: "001",
+      id: 1,
+    };
   }
   const randomIndex = Math.floor(Math.random() * pokemons.length);
   return pokemons[randomIndex];
