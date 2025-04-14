@@ -1,11 +1,8 @@
 import { MotionValue, PanInfo } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 // Ensure these imports point to your actual types and utility functions
-import { Data, PokemonData } from "../../../components/pokemon/types/pokemon";
-import {
-  getRandomPokeball,
-  getRandomPokemon,
-} from "../../../components/pokemon/utils/pokemonUtils";
+import { Data, PokemonData } from "../types/pokemon";
+import { getRandomPokeball, getRandomPokemon } from "../utils/pokemonUtils";
 import { useAnimation } from "./useAnimation";
 import {
   HIDE_ANIMATION_DELAY,

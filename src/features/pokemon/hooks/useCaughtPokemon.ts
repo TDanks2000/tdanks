@@ -1,4 +1,4 @@
-import { PokemonData } from "@/components/pokemon/types/pokemon";
+import { PokemonData } from "@/features/pokemon/types/pokemon";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface CaughtPokemonData extends PokemonData {

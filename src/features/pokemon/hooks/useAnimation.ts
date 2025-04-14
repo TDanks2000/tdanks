@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { PokemonData } from "../../../components/pokemon/types/pokemon";
+import { PokemonData } from "../types/pokemon";
 
 interface UseAnimationReturn {
   // Animation state

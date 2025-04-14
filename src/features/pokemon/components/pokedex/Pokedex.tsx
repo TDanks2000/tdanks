@@ -1,10 +1,10 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { PokedexButton } from "../../../../components/pokemon/components/pokedex/button";
-import { PokedexHeader } from "../../../../components/pokemon/components/pokedex/PokedexHeader";
-import { usePokedex } from "../../hooks";
-import { PokedexEntry } from "./PokedexEntry";
-import { PokedexSearch } from "./PokedexSearch";
 import { useState } from "react";
+import { usePokedex } from "../../hooks";
+import { PokedexButton } from "./button";
+import { PokedexEntry } from "./PokedexEntry";
+import { PokedexHeader } from "./PokedexHeader";
+import { PokedexSearch } from "./PokedexSearch";
 
 export const Pokedex = () => {
   const [open, setOpen] = useState(false);

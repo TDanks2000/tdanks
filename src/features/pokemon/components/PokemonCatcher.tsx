@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
-import { CaughtPokemonDisplay } from "../../../components/pokemon/components/CaughtPokemonDisplay";
-import { DraggablePokeball } from "../../../components/pokemon/components/DraggablePokeball";
-import { InstructionsText } from "../../../components/pokemon/components/InstructionsText";
-import { ThrowAnimation } from "../../../components/pokemon/components/ThrowAnimation";
 import { usePokemonCatcher } from "../hooks";
+import { DraggablePokeball } from "./DraggablePokeball";
+import { InstructionsText } from "./InstructionsText";
 import { MuteButton } from "./muteButton";
 import { Pokedex } from "./pokedex/Pokedex";
+import { ThrowAnimation } from "./ThrowAnimation";
+import { CaughtPokemonDisplay } from "./CaughtPokemonDisplay";
 
 export const PokemonCatcher = () => {
   const {
