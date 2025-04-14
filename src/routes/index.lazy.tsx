@@ -76,10 +76,10 @@ function Index() {
 
           <BoxCard
             description="A powerful React library for building incremental, idle, and clicker games. Create engaging experiences with minimal setup using our collection of specialized hooks and stores."
-            href="https://github.com/tdanks2000/react-incremental-library"
+            href="https://npmjs.com/package/react-incremental-library"
             icon={<BiLogoTypescript />}
             title="react-incremental-game-library"
-            github="https://github.com/tdanks2000/react-incremental-library"
+            github="https://github.com/tdanks2000/react-incremental-lib"
             stack={[
               {
                 icon: <BiLogoTypescript />,
