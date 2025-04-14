@@ -4,6 +4,8 @@ import { DraggablePokeball } from "../../../components/pokemon/components/Dragga
 import { InstructionsText } from "../../../components/pokemon/components/InstructionsText";
 import { ThrowAnimation } from "../../../components/pokemon/components/ThrowAnimation";
 import { usePokemonCatcher } from "../hooks";
+import { MuteButton } from "./muteButton";
+import { Pokedex } from "./pokedex/Pokedex";
 
 export const PokemonCatcher = () => {
   const {
@@ -14,6 +16,7 @@ export const PokemonCatcher = () => {
     isThrown,
     pokemonPosition,
     currentPokeball,
+    isMuted,
 
     // Motion values
     springX,
@@ -24,6 +27,7 @@ export const PokemonCatcher = () => {
     // Functions
     setIsDragging,
     handleDragEnd,
+    toggleMute,
   } = usePokemonCatcher();
 
   const initialTop =
@@ -41,14 +45,16 @@ export const PokemonCatcher = () => {
         "animate-gradient-xy"
       )}
     >
-      <InstructionsText
-        hideConditions={{
-          caughtPokemon: !!caughtPokemon,
-          showPokeballAnimation,
-          isThrown,
-        }}
-        currentPokeball={currentPokeball}
-      />
+      <div className="w-full flex justify-center items-center">
+        <InstructionsText
+          hideConditions={{
+            caughtPokemon: !!caughtPokemon,
+            showPokeballAnimation,
+            isThrown,
+          }}
+          currentPokeball={currentPokeball}
+        />
+      </div>
 
       <div className="relative w-full grow flex items-center justify-center">
         <DraggablePokeball
@@ -78,6 +84,15 @@ export const PokemonCatcher = () => {
             left: initialLeft,
           }}
         />
+
+        {/* Controls positioned at bottom right */}
+        <div className="fixed bottom-4 right-4 z-50">
+          <div className="flex justify-end items-center gap-2 scale-[0.90]">
+            <MuteButton isMuted={isMuted} toggleMute={toggleMute} />
+
+            <Pokedex />
+          </div>
+        </div>
       </div>
     </div>
   );

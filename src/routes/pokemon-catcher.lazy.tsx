@@ -1,4 +1,4 @@
-import { Pokedex, PokemonCatcher } from "@/features/pokemon/components";
+import { PokemonCatcher } from "@/features/pokemon/components";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/pokemon-catcher")({
@@ -10,9 +10,6 @@ export function Component() {
     <div className="container mx-auto py-8 px-4">
       <div className="max-w-md mx-auto relative">
         <PokemonCatcher />
-
-        {/* Pokedex component with dialog */}
-        <Pokedex />
       </div>
     </div>
   );

@@ -4,16 +4,16 @@ import { PokedexHeader } from "../../../../components/pokemon/components/pokedex
 import { usePokedex } from "../../hooks";
 import { PokedexEntry } from "./PokedexEntry";
 import { PokedexSearch } from "./PokedexSearch";
+import { useState } from "react";
 
 export const Pokedex = () => {
+  const [open, setOpen] = useState(false);
   const { searchQuery, filteredPokemon, setSearchQuery } = usePokedex();
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="fixed bottom-4 right-4 z-10">
-          <PokedexButton />
-        </div>
+        <PokedexButton open={open} setOpen={setOpen} />
       </DialogTrigger>
       <DialogContent className="w-full max-w-lg p-4 sm:p-0 overflow-hidden border-none shadow-xl">
         {/* Pokedex top section (red) */}

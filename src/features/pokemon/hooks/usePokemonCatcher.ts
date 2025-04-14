@@ -1,23 +1,25 @@
-import {
-  animate,
-  MotionValue,
-  PanInfo,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { MotionValue, PanInfo } from "framer-motion";
+import { useCallback, useEffect, useState } from "react";
+// Ensure these imports point to your actual types and utility functions
 import { Data, PokemonData } from "../../../components/pokemon/types/pokemon";
 import {
   getRandomPokeball,
   getRandomPokemon,
 } from "../../../components/pokemon/utils/pokemonUtils";
-import { useCaughtPokemon } from "./useCaughtPokemon";
+import { useAnimation } from "./useAnimation";
+import {
+  HIDE_ANIMATION_DELAY,
+  HIT_SOUND_DELAY,
+  RESET_DELAY,
+  REVEAL_POKEMON_DELAY,
+  SUCCESS_SOUND_DELAY,
+  useAudio,
+} from "./useAudio";
+import { useCaughtPokemon } from "./useCaughtPokemon"; // Hook to save caught Pokémon
+import { useDrag } from "./useDrag";
+import { Position, usePosition } from "./usePosition";
 
-interface Position {
-  top: number;
-  left: number;
-}
-
+// --- Types ---
 interface UsePokemonCatcherReturn {
   // State
   caughtPokemon: PokemonData | null;
@@ -26,12 +28,15 @@ interface UsePokemonCatcherReturn {
   isThrown: boolean;
   pokemonPosition: Position | null;
   currentPokeball: Data | null;
+  isMuted: boolean;
 
   // Motion values
   dragX: MotionValue<number>;
   dragY: MotionValue<number>;
   springX: MotionValue<number>;
   springY: MotionValue<number>;
+
+  // Refs
   throwVelocity: React.RefObject<{ x: number; y: number }>;
   containerRef: React.RefObject<HTMLDivElement>;
 
@@ -43,142 +48,248 @@ interface UsePokemonCatcherReturn {
   ) => void;
   resetThrow: () => void;
   calculateRandomPokemonPosition: () => void;
+  toggleMute: () => void;
 }
 
+/**
+ * Custom hook to manage the logic for catching a Pokémon via dragging and throwing a Pokéball.
+ * Includes state management, animation values, sound effects, and positioning.
+ * Assumes sound files are located according to SOUND_PATHS constants.
+ */
 export const usePokemonCatcher = (): UsePokemonCatcherReturn => {
-  // Component State
-  const [caughtPokemon, setCaughtPokemon] = useState<PokemonData | null>(null);
-  const [showPokeballAnimation, setShowPokeballAnimation] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isThrown, setIsThrown] = useState(false);
+  // --- Animation State from useAnimation ---
+  const {
+    caughtPokemon,
+    setCaughtPokemon,
+    showPokeballAnimation,
+    setShowPokeballAnimation,
+    isDragging,
+    setIsDragging,
+    isThrown,
+    setIsThrown,
+    startThrowAnimation,
+    hidePokeballAnimation,
+    shouldResetThrow,
+  } = useAnimation();
+
+  // --- Other State ---
   const [pokemonPosition, setPokemonPosition] = useState<Position | null>(null);
   const [currentPokeball, setCurrentPokeball] = useState<Data | null>(null);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
 
-  // Use the caught pokemon hook to save caught pokemon
+  // --- External Hooks ---
   const { catchPokemon: saveCaughtPokemon } = useCaughtPokemon();
 
-  // Motion Values and Refs
-  const dragX = useMotionValue(0);
-  const dragY = useMotionValue(0);
-  const springX = useSpring(dragX, { damping: 20, stiffness: 300 });
-  const springY = useSpring(dragY, { damping: 20, stiffness: 300 });
-  const throwVelocity = useRef({ x: 0, y: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
+  // --- Specialized Hooks ---
+  const {
+    throwSoundRef,
+    hitSoundRef,
+    successSoundRef,
+    hitSoundTimeoutId,
+    revealPokemonTimeoutId,
+    successSoundTimeoutId,
+    hideAnimationTimeoutId,
+    playSound,
+    playPokemonCry,
+    clearAllTimeouts,
+  } = useAudio();
 
-  // Helper Functions
+  // --- Audio Control ---
+  const toggleMute = useCallback(() => {
+    setIsMuted((prev) => {
+      const newMuted = !prev;
+      // Set the muted property on all audio elements
+      if (throwSoundRef.current) throwSoundRef.current.muted = newMuted;
+      if (hitSoundRef.current) hitSoundRef.current.muted = newMuted;
+      if (successSoundRef.current) successSoundRef.current.muted = newMuted;
+      console.log(`Sound ${newMuted ? "muted" : "unmuted"}`);
+      return newMuted;
+    });
+  }, [throwSoundRef, hitSoundRef, successSoundRef]);
+
+  const { containerRef, calculateRandomPokemonPosition: getRandomPosition } =
+    usePosition();
+
+  const {
+    dragX,
+    dragY,
+    springX,
+    springY,
+    throwVelocity,
+    resetDragPosition,
+    isValidThrow,
+  } = useDrag();
+
+  // --- Positioning Logic Wrapper ---
   const calculateRandomPokemonPosition = useCallback(() => {
-    if (containerRef.current) {
-      const { offsetWidth: containerWidth, offsetHeight: containerHeight } =
-        containerRef.current;
-      const estimatedElementWidth = 300;
-      const estimatedElementHeight = 350;
-      const maxTop = Math.max(0, containerHeight - estimatedElementHeight - 20);
-      const maxLeft = Math.max(0, containerWidth - estimatedElementWidth - 20);
-      const randomTop = 20 + Math.random() * maxTop;
-      const randomLeft = 20 + Math.random() * maxLeft;
-      setPokemonPosition({ top: randomTop, left: randomLeft });
-    } else {
-      setPokemonPosition({
-        top: window.innerHeight / 2 - 175,
-        left: window.innerWidth / 2 - 150,
-      });
-    }
-  }, []);
+    const position = getRandomPosition();
+    setPokemonPosition(position);
+  }, [getRandomPosition]);
 
+  // --- Reset Logic ---
   const resetThrow = useCallback(() => {
+    console.log(
+      "Executing resetThrow: Resetting state, animations, and clearing timeouts."
+    );
+    // Clear any active timeouts FIRST to prevent them firing after reset
+    clearAllTimeouts();
+
+    // Reset state
     setCaughtPokemon(null);
     setShowPokeballAnimation(false);
     setIsThrown(false);
     setIsDragging(false);
     setPokemonPosition(null);
     setCurrentPokeball(getRandomPokeball());
-    dragX.set(0);
-    dragY.set(0);
-    animate(dragX, 0, { type: "spring", stiffness: 300, damping: 20 });
-    animate(dragY, 0, { type: "spring", stiffness: 300, damping: 20 });
-  }, [dragX, dragY]);
 
+    // Stop lingering sounds
+    hitSoundRef.current?.pause();
+    successSoundRef.current?.pause();
+
+    // Reset animations
+    resetDragPosition();
+  }, [
+    clearAllTimeouts,
+    setCaughtPokemon,
+    setShowPokeballAnimation,
+    setIsThrown,
+    setIsDragging,
+    hitSoundRef,
+    successSoundRef,
+    resetDragPosition,
+  ]);
+
+  // --- Drag Handling ---
   const handleDragEnd = useCallback(
     (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
       setIsDragging(false);
-      const { offset, velocity } = info;
-      const dragDistance = Math.sqrt(
-        Math.pow(offset.x, 2) + Math.pow(offset.y, 2)
-      );
-      const velocityMagnitude = Math.sqrt(
-        Math.pow(velocity.x, 2) + Math.pow(velocity.y, 2)
-      );
-      const throwDistanceThreshold = 80;
-      const velocityThreshold = 300;
-      const upwardVelocityThreshold = -150;
 
-      if (
-        (dragDistance > throwDistanceThreshold ||
-          velocityMagnitude > velocityThreshold) &&
-        velocity.y < upwardVelocityThreshold
-      ) {
-        throwVelocity.current = { x: velocity.x, y: velocity.y };
-        setIsThrown(true);
-        setShowPokeballAnimation(true);
+      if (isValidThrow(info)) {
+        // --- Valid Throw ---
+        console.log("Valid throw detected.");
+        // Clear any previous timeouts just in case of rapid interactions (unlikely but safe)
+        clearAllTimeouts();
+        if (!isMuted) playSound(throwSoundRef, "throw");
+        throwVelocity.current = { x: info.velocity.x, y: info.velocity.y };
+        startThrowAnimation();
 
-        setTimeout(() => {
+        // 1. Hit Sound Timeout
+        hitSoundTimeoutId.current = setTimeout(() => {
+          if (!isMuted) playSound(hitSoundRef, "hit");
+          hitSoundTimeoutId.current = null; // Clear ref after execution
+        }, HIT_SOUND_DELAY);
+
+        // 2. Reveal Pokemon Timeout
+        revealPokemonTimeoutId.current = setTimeout(() => {
+          console.log("Reveal timeout: Generating Pokemon...");
           const randomPoke = getRandomPokemon();
+          console.log(
+            `Pokemon generated: ${randomPoke.name} (ID: ${randomPoke.id}). Setting state.`
+          );
           setCaughtPokemon(randomPoke);
-          // Save the caught pokemon to localStorage
+
+          // 2a. Success Sound Timeout (Nested)
+          successSoundTimeoutId.current = setTimeout(() => {
+            console.log("Playing success sound and cry...");
+            if (!isMuted) {
+              playSound(successSoundRef, "success");
+              playPokemonCry(randomPoke.id);
+            }
+            successSoundTimeoutId.current = null; // Clear ref after execution
+          }, SUCCESS_SOUND_DELAY);
+
+          console.log("Saving caught Pokemon and calculating position...");
           saveCaughtPokemon(randomPoke);
           calculateRandomPokemonPosition();
-        }, 800);
+          revealPokemonTimeoutId.current = null; // Clear ref after execution
+        }, REVEAL_POKEMON_DELAY);
 
-        setTimeout(() => {
-          setShowPokeballAnimation(false);
-        }, 1500);
+        // 3. Hide Animation Timeout
+        hideAnimationTimeoutId.current = setTimeout(() => {
+          console.log("Hiding Pokéball animation.");
+          hidePokeballAnimation();
+          hideAnimationTimeoutId.current = null; // Clear ref after execution
+        }, HIDE_ANIMATION_DELAY);
       } else {
-        animate(dragX, 0, { type: "spring", stiffness: 300, damping: 20 });
-        animate(dragY, 0, { type: "spring", stiffness: 300, damping: 20 });
-        setIsThrown(false);
+        // --- Invalid Throw ---
+        console.log("Drag ended but not a valid throw. Animating back.");
+        resetDragPosition();
+        setIsThrown(false); // Ensure isThrown is false if throw fails
       }
     },
-    [calculateRandomPokemonPosition, dragX, dragY, saveCaughtPokemon]
+    [
+      setIsDragging,
+      isValidThrow,
+      clearAllTimeouts,
+      isMuted,
+      playSound,
+      throwSoundRef,
+      throwVelocity,
+      startThrowAnimation,
+      hitSoundTimeoutId,
+      revealPokemonTimeoutId,
+      hideAnimationTimeoutId,
+      hitSoundRef,
+      setCaughtPokemon,
+      successSoundTimeoutId,
+      saveCaughtPokemon,
+      calculateRandomPokemonPosition,
+      successSoundRef,
+      playPokemonCry,
+      hidePokeballAnimation,
+      resetDragPosition,
+      setIsThrown,
+    ]
   );
 
-  // Effects
+  // --- Effects ---
+
+  // Set initial Pokéball
   useEffect(() => {
     setCurrentPokeball(getRandomPokeball());
   }, []);
 
+  // Automatic Reset Effect
   useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
-    if (caughtPokemon && !showPokeballAnimation) {
-      timer = setTimeout(() => {
-        resetThrow();
-      }, 2500);
+    let resetTimerId: NodeJS.Timeout | null = null;
+    if (shouldResetThrow()) {
+      console.log(
+        `Conditions met for reset timer (${RESET_DELAY}ms). Starting timeout...`
+      );
+      resetTimerId = setTimeout(() => {
+        console.log("Reset timer expired. Calling resetThrow.");
+        resetThrow(); // resetThrow now handles clearing sequence timeouts too
+      }, RESET_DELAY);
     }
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [caughtPokemon, showPokeballAnimation, resetThrow]);
 
+    // Cleanup function for this effect's timer
+    return () => {
+      if (resetTimerId) {
+        console.log("Clearing reset timer.");
+        clearTimeout(resetTimerId);
+      }
+    };
+  }, [shouldResetThrow, resetThrow]); // Dependency on resetThrow is important here
+
+  // --- Return Values ---
   return {
-    // State
     caughtPokemon,
     showPokeballAnimation,
     isDragging,
     isThrown,
     pokemonPosition,
     currentPokeball,
-
-    // Motion values
+    isMuted,
     dragX,
     dragY,
     springX,
     springY,
     throwVelocity,
     containerRef,
-
-    // Functions
     setIsDragging,
     handleDragEnd,
     resetThrow,
     calculateRandomPokemonPosition,
+    toggleMute,
   };
 };
