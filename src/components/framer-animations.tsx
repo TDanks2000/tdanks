@@ -5,7 +5,7 @@ import { PropsWithChildren, ReactNode } from "react";
 export const MotionRainbowGradientHover = ({ children }: PropsWithChildren) => {
   return (
     <motion.div
-      className="rounded-xl bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 p-0.5 shadow-xl"
+      className="rounded-xl bg-linear-to-r from-green-300 via-blue-500 to-purple-600 p-0.5 shadow-xl"
       whileHover={{
         backgroundSize: "400% 400%",
         boxShadow:
@@ -34,7 +34,7 @@ export const MotionRainbowText = ({
 }: PropsWithChildren<{ className?: string }>) => {
   return (
     <motion.span
-      className={`text-transparent bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text ${className || ""}`}
+      className={`text-transparent bg-linear-to-r from-red-500 via-yellow-500 to-green-500 bg-clip-text ${className || ""}`}
       animate={{
         backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
       }}

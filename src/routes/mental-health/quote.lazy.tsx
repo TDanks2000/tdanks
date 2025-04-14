@@ -144,7 +144,7 @@ function QuotePage() {
 
   return (
     <motion.div
-      className="flex flex-col items-center justify-center w-full min-h-screen py-12 px-4 bg-gradient-to-b from-background to-background/80"
+      className="flex flex-col items-center justify-center w-full min-h-screen py-12 px-4 bg-linear-to-b from-background to-background/80"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -195,7 +195,7 @@ function QuotePage() {
                       activeCategory === category.name ? "default" : "outline"
                     }
                     onClick={() => selectCategory(category.name)}
-                    className={`rounded-full flex items-center gap-2 ${activeCategory === category.name ? "bg-gradient-to-r " + category.color : ""}`}
+                    className={`rounded-full flex items-center gap-2 ${activeCategory === category.name ? "bg-linear-to-r " + category.color : ""}`}
                   >
                     {category.icon}
                     {category.name}
@@ -208,7 +208,7 @@ function QuotePage() {
 
         {/* Quote Display */}
         <MotionRainbowGradientHover>
-          <Card className="w-full bg-card/80 backdrop-blur-sm border-border/40 shadow-xl">
+          <Card className="w-full bg-card/80 backdrop-blur-xs border-border/40 shadow-xl">
             <CardContent className="p-8">
               <div className="min-h-[150px] flex items-center justify-center text-center">
                 <p className="font-mono text-xl md:text-2xl font-medium leading-relaxed">
@@ -270,7 +270,7 @@ function QuotePage() {
             <Button
               variant="default"
               onClick={randomQuote}
-              className="rounded-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+              className="rounded-full bg-linear-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
             >
               Random Quote
             </Button>

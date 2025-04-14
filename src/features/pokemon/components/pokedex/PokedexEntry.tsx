@@ -12,7 +12,7 @@ interface PokedexEntryProps {
 export const PokedexEntry = ({ pokemon }: PokedexEntryProps) => {
   return (
     <div className="flex items-center p-2 bg-gray-50 rounded-md border border-gray-200 hover:bg-gray-100 transition-colors">
-      <div className="size-11 mr-3 flex-shrink-0 relative">
+      <div className="size-11 mr-3 shrink-0 relative">
         {!pokemon.isCaught ? (
           <div className="rounded-full size-full text-black justify-center items-center flex text-2xl bg-card/40 absolute inset-0 z-10">
             ?

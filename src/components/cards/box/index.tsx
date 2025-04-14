@@ -51,7 +51,7 @@ const BoxCard = ({
         <div className="overflow-hidden w-full size-full">
           <CardHeader>
             <div className="flex flex-row items-center w-full gap-4 overflow-hidden">
-              <div className="flex  size-12 rounded-lg shadow-sm">
+              <div className="flex  size-12 rounded-lg shadow-xs">
                 {icon ? (
                   <div className="*:size-full text-purple-500 shrink-0 grow-0">
                     {icon}

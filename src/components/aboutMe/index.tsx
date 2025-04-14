@@ -6,7 +6,7 @@ const AboutMe = () => {
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-3">
         <h2 className="text-3xl font-bold tracking-tight">About Me</h2>
-        <div className="h-px flex-grow bg-gradient-to-r from-purple-500/50 to-transparent"></div>
+        <div className="h-px grow bg-linear-to-r from-purple-500/50 to-transparent"></div>
       </div>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">

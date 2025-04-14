@@ -33,7 +33,7 @@ export const CaughtPokemonDisplay = ({
   return (
     <AnimatePresence>
       <motion.div
-        className="absolute flex flex-col items-center z-40 backdrop-blur-sm bg-background/30 p-6 rounded-xl shadow-xl"
+        className="absolute flex flex-col items-center z-40 backdrop-blur-xs bg-background/30 p-6 rounded-xl shadow-xl"
         key={caughtPokemon.name + pokemonPosition.top}
         initial={{
           scale: 0.5,

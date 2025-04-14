@@ -23,7 +23,7 @@ export const InstructionsText = ({
       <h1 className="text-2xl md:text-3xl font-bold mb-2 drop-shadow-md text-foreground">
         <MotionRainbowText>Ready to Catch?</MotionRainbowText>
       </h1>
-      <p className="text-md md:text-lg drop-shadow text-foreground/80">
+      <p className="text-md md:text-lg drop-shadow-sm text-foreground/80">
         Drag the <strong> {currentPokeball?.name || "Poké Ball"} </strong>{" "}
         upwards to throw!
       </p>

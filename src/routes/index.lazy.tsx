@@ -23,7 +23,7 @@ function Index() {
       <section className="w-full max-w-3xl mx-auto text-center sm:text-left">
         <div className="flex flex-col items-center gap-6 sm:items-start">
           <NameComponent />
-          <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full sm:w-24"></div>
+          <div className="w-20 h-1 bg-linear-to-r from-purple-500 to-blue-500 rounded-full sm:w-24"></div>
           <SocailsComponent />
         </div>
       </section>
@@ -97,7 +97,7 @@ function Index() {
       </section>
 
       {/* About Me Section with improved container */}
-      <section className="w-full  p-8 bg-card/30 backdrop-blur-sm rounded-xl border border-border/40 shadow-lg">
+      <section className="w-full  p-8 bg-card/30 backdrop-blur-xs rounded-xl border border-border/40 shadow-lg">
         <AboutMe />
       </section>
     </div>
