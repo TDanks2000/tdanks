@@ -1,5 +1,5 @@
-import { MotionRainbowText } from "@/components/framer-animations";
 import { constants } from "@/data/constants";
+import { cn } from "@/lib/utils"; // adjust the import path as needed
 import { AnimatePresence, motion } from "framer-motion";
 import { PokemonData } from "../types/pokemon";
 
@@ -33,7 +33,10 @@ export const CaughtPokemonDisplay = ({
   return (
     <AnimatePresence>
       <motion.div
-        className="absolute flex flex-col items-center z-40 backdrop-blur-xs bg-background/30 p-6 rounded-xl shadow-xl"
+        className={cn(
+          "absolute flex flex-col items-center z-40 backdrop-blur-xs",
+          "bg-background/30 p-6 rounded-xl shadow-xl"
+        )}
         key={caughtPokemon.name + pokemonPosition.top}
         initial={{
           scale: 0.5,
@@ -61,8 +64,14 @@ export const CaughtPokemonDisplay = ({
           transition: { duration: 0.3, ease: "easeIn" },
         }}
       >
-        <h2 className="text-2xl md:text-3xl font-bold mb-3 text-center text-foreground drop-shadow-lg px-4 py-1 rounded-md">
-          Caught <MotionRainbowText>{caughtPokemon.name}</MotionRainbowText>!
+        <h2
+          className={cn(
+            "font-londrina-solid text-xl md:text-2xl font-bold mb-3 text-center px-4 py-1 rounded-md select-none shrink-0 grow-0",
+            "text-primary-foreground",
+            "drop-shadow-lg drop-shadow-destructive/20"
+          )}
+        >
+          Caught {caughtPokemon.name}!
         </h2>
         <motion.img
           src={
@@ -71,7 +80,10 @@ export const CaughtPokemonDisplay = ({
               : "fallback_image_url.png"
           }
           alt={caughtPokemon.name}
-          className="object-contain w-[150px] h-[150px] md:w-[200px] md:h-[200px] drop-shadow-xl filter brightness-110"
+          className={cn(
+            "object-contain w-[150px] h-[150px] md:w-[200px] md:h-[200px]",
+            "drop-shadow-xl filter brightness-110"
+          )}
           initial={{ y: -20, scale: 0.8 }}
           animate={{
             y: [0, -15, 0],

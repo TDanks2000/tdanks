@@ -26,7 +26,7 @@ export const PokedexEntry = ({ pokemon }: PokedexEntryProps) => {
           />
         )}
       </div>
-      <div>
+      <div className="font-londrina-solid ">
         <div className="text-xs text-gray-500">
           #{pokemon.pokedexNumber || pokemon.id.toString().padStart(3, "0")}
         </div>

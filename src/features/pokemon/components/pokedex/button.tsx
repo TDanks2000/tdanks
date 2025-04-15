@@ -16,7 +16,7 @@ export const PokedexButton = ({ open, setOpen }: PokedexButtonProps) => {
         setOpen(!open);
       }}
     >
-      <CgPokemon className="text-black text-[20px]" />
+      <CgPokemon className="text-black text-xl" />
     </PokemonButton>
   );
 };

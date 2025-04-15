@@ -1,4 +1,4 @@
-import { MotionRainbowText } from "@/components/framer-animations";
+import { cn } from "@/lib/utils"; // adjust the import path as needed
 import { Data } from "../types/pokemon";
 
 interface InstructionsTextProps {
@@ -19,13 +19,25 @@ export const InstructionsText = ({
   if (caughtPokemon || showPokeballAnimation || isThrown) return null;
 
   return (
-    <div className="text-center mt-8 z-10 animate-fade-in">
-      <h1 className="text-2xl md:text-3xl font-bold mb-2 drop-shadow-md text-foreground">
-        <MotionRainbowText>Ready to Catch?</MotionRainbowText>
+    <div className={cn("text-center mt-8 z-10 animate-fade-in")}>
+      <h1
+        className={cn(
+          "font-londrina-solid text-3xl font-extrabold mb-2 tracking-wide select-none",
+          "text-primary-foreground",
+          "drop-shadow-lg drop-shadow-destructive/20"
+        )}
+      >
+        Get Ready to Catch 'Em All!
       </h1>
-      <p className="text-md md:text-lg drop-shadow-sm text-foreground/80">
-        Drag the <strong> {currentPokeball?.name || "Poké Ball"} </strong>{" "}
-        upwards to throw!
+      <p
+        className={cn(
+          "font-londrina-solid text-lg select-none",
+          "text-primary-foreground/90",
+          "drop-shadow-lg drop-shadow-destructive/20"
+        )}
+      >
+        Drag the <strong>{currentPokeball?.name || "Poké Ball"}</strong> up to
+        throw and start your Pokémon adventure!
       </p>
     </div>
   );

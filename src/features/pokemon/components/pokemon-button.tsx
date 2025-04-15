@@ -3,6 +3,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils"; // adjust the import path as needed
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
 type PokemonButtonProps = {
@@ -13,6 +14,7 @@ type PokemonButtonProps = {
 export const PokemonButton = ({
   tooltipContent,
   children,
+  className,
   ...props
 }: PokemonButtonProps) => {
   return (
@@ -20,7 +22,11 @@ export const PokemonButton = ({
       <TooltipTrigger asChild>
         <button
           {...props}
-          className={`group relative w-16 h-16 rounded-full overflow-hidden border-[2.5px] border-black shadow-md hover:scale-105 transition-transform duration-200 ${props.className ?? ""}`}
+          className={cn(
+            "group relative w-16 h-16 rounded-full overflow-hidden border-[2.5px] border-black shadow-md",
+            "hover:scale-105 transition-transform duration-200",
+            className
+          )}
         >
           {/* Top red gradient half */}
           <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-red-600 to-red-700" />
@@ -41,7 +47,9 @@ export const PokemonButton = ({
         </button>
       </TooltipTrigger>
       <TooltipContent
-        className="bg-white text-black border border-black rounded-md shadow-lg px-3 py-1 text-sm font-medium"
+        className={
+          "bg-white text-black border border-black rounded-md shadow-lg px-3 py-1 text-sm font-medium font-londrina-solid"
+        }
         showArrow={false}
       >
         {tooltipContent}
