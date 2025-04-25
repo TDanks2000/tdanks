@@ -37,7 +37,7 @@ function Index() {
           <BoxCard
             description="Games Recaped provides the latest updates from game conferences such as E3, SGF, and more. Stay informed on new game announcements, trailers"
             href="https://recap.games/"
-            image="https://recap.games/logo.png"
+            image="https://recap.games/favicon.ico"
             title="GamesRecapped"
             github="https://github.com/tdanks2000/gamesrecaped"
             stack={[
