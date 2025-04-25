@@ -200,6 +200,32 @@
       transform: translateY(0);
     }
   }
+
+  @keyframes star-burst {
+    0% {
+      opacity: 1;
+      transform: rotate(var(--rotation)) translateY(-40px) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: rotate(var(--rotation)) translateY(-80px) scale(0);
+    }
+  }
+
+  @keyframes sparkle-burst {
+    0% {
+      opacity: 1;
+      transform: rotate(var(--rotation)) translateY(-30px) scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: rotate(var(--rotation)) translateY(-45px) scale(0.8);
+    }
+    100% {
+      opacity: 0;
+      transform: rotate(var(--rotation)) translateY(-60px) scale(0);
+    }
+  }
 }
 
 @layer utilities {
