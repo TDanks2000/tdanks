@@ -6,10 +6,8 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { BiLogoTypescript } from "react-icons/bi";
 import { IoLogoReact } from "react-icons/io5";
 import {
-  SiPrisma,
-  SiShadcnui,
-  SiSupabase,
-  SiTailwindcss,
+  SiDrizzle, SiShadcnui, SiTailwindcss, SiSqlite,
+  SiNextdotjs
 } from "react-icons/si";
 
 export const Route = createLazyFileRoute("/")({
@@ -47,19 +45,19 @@ function Index() {
                 href: "https://www.typescriptlang.org/",
               },
               {
-                icon: <IoLogoReact />,
-                name: "React",
-                href: "https://react.dev/",
+                icon: <SiNextdotjs />,
+                name: "NextJS",
+                href: "https://nextjs.org",
               },
               {
-                icon: <SiSupabase />,
-                name: "Supabase",
-                href: "https://supabase.com/",
+                icon: <SiDrizzle />,
+                name: "Drizzle",
+                href: "https://orm.drizzle.team/",
               },
               {
-                icon: <SiPrisma />,
-                name: "Prisma",
-                href: "https://www.prisma.io/",
+                icon: <SiSqlite  />,
+                name: "SQLite",
+                href: "https://sqlite.org/",
               },
               {
                 icon: <SiShadcnui />,
