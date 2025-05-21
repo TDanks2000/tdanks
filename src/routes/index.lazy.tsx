@@ -37,7 +37,7 @@ function Index() {
             href="https://recap.games/"
             image="https://recap.games/favicon.ico"
             title="GamesRecapped"
-            github="https://github.com/tdanks2000/gamesrecaped"
+            github="https://github.com/tdanks2000/recap.games"
             stack={[
               {
                 icon: <BiLogoTypescript />,
