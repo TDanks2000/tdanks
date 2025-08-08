@@ -1,4 +1,5 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { BiLogoTypescript } from "react-icons/bi";
 import { IoLogoReact } from "react-icons/io5";
 import {
@@ -28,28 +29,52 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
+import { getRandomPokeball } from "@/features/pokemon/utils/pokemonUtils";
 
 export const Route = createLazyFileRoute("/")({
 	component: Index,
 });
 
 function Index() {
+	const [hiddenPokeballSrc, setHiddenPokeballSrc] = useState<string | null>(
+		null,
+	);
+	const [hiddenPosition, setHiddenPosition] = useState<{
+		top: number;
+		left: number;
+	} | null>(null);
+
+	useEffect(() => {
+		const { image } = getRandomPokeball();
+		setHiddenPokeballSrc(image);
+
+		const elementSize = 40; // px
+		const margin = 16; // px from edges
+		const viewportWidth = window.innerWidth;
+		const viewportHeight = window.innerHeight;
+		const maxLeft = Math.max(1, viewportWidth - elementSize - margin * 2);
+		const maxTop = Math.max(1, viewportHeight - elementSize - margin * 2);
+		const left = Math.floor(Math.random() * maxLeft) + margin;
+		const top = Math.floor(Math.random() * maxTop) + margin;
+		setHiddenPosition({ top, left });
+	}, []);
+
 	return (
 		<div className="flex flex-col items-center justify-start w-full min-h-screen gap-12 px-6 py-16 mx-auto max-w-7xl sm:px-8 md:px-12 lg:px-16 sm:py-24 sm:gap-16">
 			{/* Hero Section */}
 			<section className="w-full max-w-6xl mx-auto">
 				<Card className="relative overflow-hidden border border-border/40 bg-linear-to-b from-primary/5 via-background to-background">
-					<div className="pointer-events-none absolute -top-24 -left-24 size-72 rounded-full bg-purple-500/10 blur-3xl" />
-					<div className="pointer-events-none absolute -bottom-24 -right-24 size-72 rounded-full bg-blue-500/10 blur-3xl" />
+					<div className="pointer-events-none absolute -top-24 -left-24 size-72 rounded-full bg-primary/10 blur-3xl" />
+					<div className="pointer-events-none absolute -bottom-24 -right-24 size-72 rounded-full bg-primary/10 blur-3xl" />
 					<CardContent className="pt-8">
 						<div className="flex flex-col items-center gap-8 text-center sm:flex-row sm:items-center sm:text-left">
-							<Avatar className="size-16 ring-2 ring-purple-500/30 shadow-md">
+							<Avatar className="size-16 ring-2 ring-primary/30 shadow-md">
 								<AvatarImage src="/images/favicon.svg" alt="TD" />
 								<AvatarFallback>TD</AvatarFallback>
 							</Avatar>
 							<div className="flex flex-col items-center gap-4 sm:items-start">
 								<NameComponent />
-								<div className="w-24 h-1 rounded-full bg-linear-to-r from-purple-500 to-blue-500" />
+								<div className="w-24 h-1 rounded-full bg-linear-to-r from-primary to-blue-500" />
 								<SocailsComponent />
 								<div className="flex gap-3 pt-2">
 									<Button asChild size="lg">
@@ -179,6 +204,22 @@ function Index() {
 					</CardContent>
 				</Card>
 			</section>
+			{hiddenPokeballSrc && hiddenPosition ? (
+				<Link
+					to="/pokemon-catcher"
+					aria-label="Find the hidden Poké Ball"
+					className="fixed z-20 opacity-20 hover:opacity-80 transition-opacity duration-300"
+					style={{ top: hiddenPosition.top, left: hiddenPosition.left }}
+				>
+					<img
+						src={hiddenPokeballSrc}
+						alt="Hidden Poké Ball"
+						className="w-10 h-10"
+						draggable={false}
+					/>
+					<span className="sr-only">Go to Pokémon catcher</span>
+				</Link>
+			) : null}
 		</div>
 	);
 }
