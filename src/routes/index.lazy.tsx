@@ -4,6 +4,7 @@ import { BiLogoTypescript } from "react-icons/bi";
 import { IoLogoReact } from "react-icons/io5";
 import {
 	SiBun,
+	SiGraphql,
 	SiNextdotjs,
 	SiNodedotjs,
 	SiTailwindcss,
@@ -81,18 +82,33 @@ function Index() {
 										<ArrowUpRight className="size-4" />
 									</a>
 								</Button>
-								<Button asChild variant="outline" size="lg" className="rounded-full px-6">
+								<Button
+									asChild
+									variant="outline"
+									size="lg"
+									className="rounded-full px-6"
+								>
 									<a href="mailto:tommydanks2000@outlook.com">Contact me</a>
 								</Button>
 							</div>
 						</div>
 
 						<div className="mt-6 flex flex-wrap gap-2 text-sm text-muted-foreground">
-							<span className="rounded-full border border-border/70 bg-background/60 px-3 py-1.5">TypeScript</span>
-							<span className="rounded-full border border-border/70 bg-background/60 px-3 py-1.5">React</span>
-							<span className="rounded-full border border-border/70 bg-background/60 px-3 py-1.5">Bun</span>
-							<span className="rounded-full border border-border/70 bg-background/60 px-3 py-1.5">Node.js</span>
-							<span className="rounded-full border border-border/70 bg-background/60 px-3 py-1.5">API tooling</span>
+							<span className="rounded-full border border-border/70 bg-background/60 px-3 py-1.5">
+								TypeScript
+							</span>
+							<span className="rounded-full border border-border/70 bg-background/60 px-3 py-1.5">
+								React
+							</span>
+							<span className="rounded-full border border-border/70 bg-background/60 px-3 py-1.5">
+								Bun
+							</span>
+							<span className="rounded-full border border-border/70 bg-background/60 px-3 py-1.5">
+								Node.js
+							</span>
+							<span className="rounded-full border border-border/70 bg-background/60 px-3 py-1.5">
+								API tooling
+							</span>
 						</div>
 					</div>
 				</div>
@@ -108,7 +124,8 @@ function Index() {
 							Featured projects
 						</h2>
 						<p className="mt-3 text-base leading-relaxed text-muted-foreground sm:text-lg">
-							A mix of developer tooling, typed API clients, and products I actively work on.
+							A mix of developer tooling, typed API clients, and products I actively
+							work on.
 						</p>
 					</div>
 					<a
@@ -170,11 +187,14 @@ function Index() {
 						github="https://github.com/Api-Wrappers/tmdb-wrapper"
 						icon={<BiLogoTypescript />}
 						title="@api-wrappers/tmdb-wrapper"
-						stack={[typescriptStack, {
-							icon: <SiNodedotjs />,
-							name: "Node.js",
-							href: "https://nodejs.org/",
-						}]}
+						stack={[
+							typescriptStack,
+							{
+								icon: <SiNodedotjs />,
+								name: "Node.js",
+								href: "https://nodejs.org/",
+							},
+						]}
 					/>
 
 					<BoxCard
@@ -183,11 +203,14 @@ function Index() {
 						github="https://github.com/Api-Wrappers/anilist-wrapper"
 						icon={<BiLogoTypescript />}
 						title="@api-wrappers/anilist-wrapper"
-						stack={[typescriptStack, {
-							icon: <IoLogoReact />,
-							name: "GraphQL",
-							href: "https://graphql.org/",
-						}]}
+						stack={[
+							typescriptStack,
+							{
+								icon: <SiGraphql />,
+								name: "GraphQL",
+								href: "https://graphql.org/",
+							},
+						]}
 					/>
 
 					<BoxCard
@@ -196,11 +219,14 @@ function Index() {
 						github="https://github.com/Api-Wrappers/api-core"
 						icon={<BiLogoTypescript />}
 						title="@api-wrappers/api-core"
-						stack={[typescriptStack, {
-							icon: <SiBun />,
-							name: "Bun",
-							href: "https://bun.sh/",
-						}]}
+						stack={[
+							typescriptStack,
+							{
+								icon: <SiBun />,
+								name: "Bun",
+								href: "https://bun.sh/",
+							},
+						]}
 					/>
 
 					<BoxCard
