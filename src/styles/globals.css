@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@100;300;400;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Londrina+Solid:wght@100;300;400;900&display=swap");
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -6,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.75rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
@@ -242,7 +242,6 @@
     }
   }
 
-  /* Custom Pokedex scrollbar */
   .pokedex-scrollbar::-webkit-scrollbar {
     width: 8px;
   }
@@ -272,9 +271,19 @@
   * {
     @apply border-border;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background text-foreground;
-    font-family: "Open Sans", sans-serif;
+    @apply bg-background text-foreground antialiased;
+    min-height: 100vh;
+    font-family: "DM Sans", sans-serif;
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 30%, transparent);
   }
 
   .font-londrina-solid {
