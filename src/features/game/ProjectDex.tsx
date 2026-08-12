@@ -33,14 +33,55 @@ export default function ProjectDex({ onClose }: { onClose: () => void }) {
     screenRef.current?.focus();
   }, []);
 
-  const selectOffset = (offset: number) => {
-    setSelectedIndex((current) => {
-      const next = current + offset;
-      if (next < 0) return PROJECTDEX_ENTRIES.length - 1;
-      if (next >= PROJECTDEX_ENTRIES.length) return 0;
-      return next;
-    });
-  };
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase();
+
+      switch (key) {
+        case "arrowdown":
+        case "s":
+          event.preventDefault();
+          setSelectedIndex((current) =>
+            current + 1 >= PROJECTDEX_ENTRIES.length ? 0 : current + 1,
+          );
+          break;
+        case "arrowup":
+        case "w":
+          event.preventDefault();
+          setSelectedIndex((current) =>
+            current - 1 < 0 ? PROJECTDEX_ENTRIES.length - 1 : current - 1,
+          );
+          break;
+        case "home":
+          event.preventDefault();
+          setSelectedIndex(0);
+          break;
+        case "end":
+          event.preventDefault();
+          setSelectedIndex(PROJECTDEX_ENTRIES.length - 1);
+          break;
+        case "enter":
+        case "e":
+          event.preventDefault();
+          openExternal(selected.href);
+          break;
+        case "g":
+          if (selected.github) {
+            event.preventDefault();
+            openExternal(selected.github);
+          }
+          break;
+        case "escape":
+        case "b":
+          event.preventDefault();
+          onClose();
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [onClose, selected]);
 
   return (
     <div
@@ -50,47 +91,6 @@ export default function ProjectDex({ onClose }: { onClose: () => void }) {
       aria-modal="true"
       aria-label="ProjectDex"
       tabIndex={-1}
-      onKeyDownCapture={(event) => {
-        event.stopPropagation();
-        event.nativeEvent.stopImmediatePropagation();
-
-        switch (event.key.toLowerCase()) {
-          case "arrowdown":
-          case "s":
-            event.preventDefault();
-            selectOffset(1);
-            break;
-          case "arrowup":
-          case "w":
-            event.preventDefault();
-            selectOffset(-1);
-            break;
-          case "home":
-            event.preventDefault();
-            setSelectedIndex(0);
-            break;
-          case "end":
-            event.preventDefault();
-            setSelectedIndex(PROJECTDEX_ENTRIES.length - 1);
-            break;
-          case "enter":
-          case "e":
-            event.preventDefault();
-            openExternal(selected.href);
-            break;
-          case "g":
-            if (selected.github) {
-              event.preventDefault();
-              openExternal(selected.github);
-            }
-            break;
-          case "escape":
-          case "b":
-            event.preventDefault();
-            onClose();
-            break;
-        }
-      }}
     >
       <header className="projectdex-topbar">
         <div className="projectdex-title">
@@ -98,9 +98,15 @@ export default function ProjectDex({ onClose }: { onClose: () => void }) {
           <span>ProjectDex</span>
         </div>
         <div className="projectdex-count">
-          SEEN {PROJECTDEX_ENTRIES.length.toString().padStart(2, "0")} · BUILT {PROJECTDEX_ENTRIES.length.toString().padStart(2, "0")}
+          SEEN {PROJECTDEX_ENTRIES.length.toString().padStart(2, "0")} · BUILT{" "}
+          {PROJECTDEX_ENTRIES.length.toString().padStart(2, "0")}
         </div>
-        <button type="button" className="projectdex-close" onClick={onClose} aria-label="Close ProjectDex">
+        <button
+          type="button"
+          className="projectdex-close"
+          onClick={onClose}
+          aria-label="Close ProjectDex"
+        >
           <X size={14} />
         </button>
       </header>
@@ -108,7 +114,9 @@ export default function ProjectDex({ onClose }: { onClose: () => void }) {
       <div className="projectdex-body">
         <section className="projectdex-detail" aria-live="polite">
           <div className="projectdex-entry-heading">
-            <span className="projectdex-number">#{selected.number.toString().padStart(3, "0")}</span>
+            <span className="projectdex-number">
+              #{selected.number.toString().padStart(3, "0")}
+            </span>
             <h2>{selected.title}</h2>
           </div>
 
@@ -122,7 +130,9 @@ export default function ProjectDex({ onClose }: { onClose: () => void }) {
 
               <div className="projectdex-tags" aria-label="Project tags">
                 {selected.tags.map((tag) => (
-                  <span key={tag} className="projectdex-tag">{tag}</span>
+                  <span key={tag} className="projectdex-tag">
+                    {tag}
+                  </span>
                 ))}
               </div>
 
@@ -148,17 +158,29 @@ export default function ProjectDex({ onClose }: { onClose: () => void }) {
           </div>
 
           <div className="projectdex-actions">
-            <a className="projectdex-action primary" href={selected.href} target="_blank" rel="noopener noreferrer">
+            <a
+              className="projectdex-action primary"
+              href={selected.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <ExternalLink size={15} />
               Open project
             </a>
             {selected.github ? (
-              <a className="projectdex-action" href={selected.github} target="_blank" rel="noopener noreferrer">
+              <a
+                className="projectdex-action"
+                href={selected.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Github size={15} />
                 GitHub repo
               </a>
             ) : (
-              <span className="projectdex-action" aria-disabled="true">Private source</span>
+              <span className="projectdex-action" aria-disabled="true">
+                Private source
+              </span>
             )}
           </div>
         </section>
@@ -166,6 +188,7 @@ export default function ProjectDex({ onClose }: { onClose: () => void }) {
         <nav className="projectdex-list" aria-label="ProjectDex entries">
           {PROJECTDEX_ENTRIES.map((entry, index) => {
             const isSelected = index === selectedIndex;
+
             return (
               <button
                 key={entry.number}
@@ -177,7 +200,9 @@ export default function ProjectDex({ onClose }: { onClose: () => void }) {
               >
                 <ProjectImage entry={entry} className="projectdex-list-image" />
                 <span className="projectdex-list-meta">
-                  <span className="projectdex-list-number">#{entry.number.toString().padStart(3, "0")}</span>
+                  <span className="projectdex-list-number">
+                    #{entry.number.toString().padStart(3, "0")}
+                  </span>
                   <span className="projectdex-list-name">{entry.title}</span>
                 </span>
               </button>
@@ -187,10 +212,18 @@ export default function ProjectDex({ onClose }: { onClose: () => void }) {
       </div>
 
       <footer className="projectdex-footer" aria-label="ProjectDex controls">
-        <span><kbd>↑↓</kbd> Select</span>
-        <span><kbd>Enter</kbd> Open</span>
-        <span><kbd>G</kbd> GitHub</span>
-        <span><kbd>B</kbd> Back</span>
+        <span>
+          <kbd>↑↓</kbd> Select
+        </span>
+        <span>
+          <kbd>Enter</kbd> Open
+        </span>
+        <span>
+          <kbd>G</kbd> GitHub
+        </span>
+        <span>
+          <kbd>B</kbd> Back
+        </span>
       </footer>
     </div>
   );
