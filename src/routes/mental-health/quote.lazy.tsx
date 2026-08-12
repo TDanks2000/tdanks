@@ -114,7 +114,7 @@ function QuotePage() {
           </p>
         </header>
 
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.55fr)]">
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.55fr)]">
           <section className="rounded-[2rem] border border-border/60 bg-card/70 p-5 shadow-2xl shadow-primary/5 backdrop-blur-xl sm:p-8">
             <div className="mb-7">
               <div className="mb-3 flex items-center justify-between gap-4">
@@ -165,10 +165,10 @@ function QuotePage() {
               </div>
             </div>
 
-            <div className="relative overflow-hidden rounded-[1.5rem] border border-border/70 bg-background/55 px-5 py-8 sm:px-8 sm:py-10">
+            <div className="relative overflow-hidden rounded-[1.5rem] border border-border/70 bg-background/55 px-5 py-6 sm:px-8 sm:py-7">
               <div className="pointer-events-none absolute -right-20 -top-20 size-64 rounded-full bg-primary/10 blur-3xl" />
               <div className="relative">
-                <div className="mb-8 flex items-center justify-between gap-4">
+                <div className="mb-5 flex items-center justify-between gap-4">
                   <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                     A small reminder
                   </span>
@@ -180,7 +180,7 @@ function QuotePage() {
                 </div>
 
                 <div
-                  className="flex min-h-52 items-center"
+                  className="flex min-h-36 items-center"
                   aria-live="polite"
                   aria-atomic="true"
                 >
@@ -197,7 +197,7 @@ function QuotePage() {
                           {selectedQuote.text}
                         </p>
 
-                        <div className="mt-8 flex flex-wrap gap-2">
+                        <div className="mt-6 flex flex-wrap gap-2">
                           {selectedQuote.categories.map((category) => (
                             <span
                               key={category}
