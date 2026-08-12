@@ -1,0 +1,324 @@
+.game-grass-zone {
+  position: absolute;
+  z-index: 2;
+  border: 2px solid #315c2f;
+  border-radius: 7px;
+  background:
+    repeating-linear-gradient(105deg, transparent 0 8px, #bdd27a66 9px 11px, transparent 12px 17px),
+    repeating-linear-gradient(75deg, transparent 0 11px, #d2df8a55 12px 14px, transparent 15px 21px),
+    #547f3e;
+  box-shadow: inset 0 0 0 3px #294f2e77, 0 4px #31502c55;
+  pointer-events: none;
+}
+
+.game-grass-zone::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  background: repeating-linear-gradient(90deg, transparent 0 13px, #2d643a55 14px 16px, transparent 17px 26px);
+}
+
+.game-caught-count {
+  position: absolute;
+  z-index: 40;
+  right: 2.3%;
+  top: 10.7%;
+  min-width: 92px;
+  padding: clamp(6px, .75vw, 10px) clamp(9px, .95vw, 14px);
+  border: 2px solid #a97938;
+  border-radius: 5px;
+  background: #071522e8;
+  box-shadow: 0 3px #0007;
+  color: #f4c459;
+  font-size: clamp(5px, .55vw, 8px);
+  text-align: center;
+}
+
+.encounter-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: linear-gradient(#4984aa 0 46%, #6e9a55 46% 100%);
+  color: #f5f7ef;
+  font-family: "Press Start 2P", ui-monospace, monospace;
+}
+
+.encounter-sky {
+  position: absolute;
+  inset: 0 0 45%;
+  background:
+    radial-gradient(ellipse at 18% 18%, #fff9 0 4%, transparent 4.5%),
+    radial-gradient(ellipse at 23% 17%, #fff8 0 5%, transparent 5.5%),
+    linear-gradient(#2d648a, #75adca);
+}
+
+.encounter-tree-line {
+  position: absolute;
+  left: -3%;
+  right: -3%;
+  top: 34%;
+  height: 22%;
+  background:
+    radial-gradient(circle at 4% 65%, #244d31 0 8%, transparent 8.5%),
+    radial-gradient(circle at 12% 45%, #376b3c 0 10%, transparent 10.5%),
+    radial-gradient(circle at 23% 62%, #285b36 0 9%, transparent 9.5%),
+    radial-gradient(circle at 37% 43%, #3f7643 0 11%, transparent 11.5%),
+    radial-gradient(circle at 51% 62%, #2d6038 0 9%, transparent 9.5%),
+    radial-gradient(circle at 66% 45%, #376c3e 0 11%, transparent 11.5%),
+    radial-gradient(circle at 82% 58%, #285a35 0 10%, transparent 10.5%),
+    radial-gradient(circle at 96% 43%, #3e7441 0 12%, transparent 12.5%);
+  filter: drop-shadow(0 9px #173c2b);
+}
+
+.encounter-grass {
+  position: absolute;
+  inset: 50% 0 0;
+  background:
+    repeating-linear-gradient(105deg, transparent 0 19px, #d0d57944 20px 22px, transparent 23px 34px),
+    linear-gradient(#708f4c, #476f3c);
+  border-top: 5px solid #395f36;
+}
+
+.encounter-status {
+  position: absolute;
+  z-index: 5;
+  left: 6%;
+  top: 11%;
+  width: min(37%, 430px);
+  padding: clamp(10px, 1.2vw, 18px);
+  border: 4px solid #18242b;
+  border-radius: 9px 4px 14px 4px;
+  background: #f1eed8;
+  box-shadow: inset 0 0 0 3px #b4b09b, 7px 8px #14222b99;
+  color: #1f2d32;
+}
+
+.encounter-status__name {
+  font-size: clamp(8px, 1.15vw, 17px);
+  line-height: 1.6;
+}
+
+.encounter-status__level {
+  position: absolute;
+  right: 5%;
+  top: 22%;
+  font-size: clamp(6px, .75vw, 11px);
+}
+
+.encounter-hp {
+  height: clamp(8px, .9vw, 13px);
+  margin: 10px 0 0 22%;
+  overflow: hidden;
+  border: 3px solid #263439;
+  border-radius: 999px;
+  background: #4d5c58;
+}
+
+.encounter-hp span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #63cb65;
+}
+
+.encounter-pokemon {
+  position: absolute;
+  z-index: 5;
+  right: 16%;
+  top: 25%;
+  width: clamp(145px, 25vw, 380px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  transition: transform .15s ease;
+}
+
+.encounter-pokemon.is-targeted {
+  animation: encounter-hit .22s steps(2) 3;
+}
+
+.encounter-pokemon img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 12px 3px #17351c55);
+}
+
+.encounter-shadow {
+  position: absolute;
+  z-index: 1;
+  left: 20%;
+  right: 20%;
+  bottom: 8%;
+  height: 13%;
+  border-radius: 50%;
+  background: #213d2555;
+}
+
+.encounter-ball {
+  position: absolute;
+  z-index: 8;
+  left: 18%;
+  bottom: 27%;
+  width: clamp(24px, 3vw, 46px);
+  aspect-ratio: 1;
+  border: 3px solid #18232a;
+  border-radius: 50%;
+  background: linear-gradient(#d84d45 0 46%, #18232a 46% 56%, #ece7d5 56% 100%);
+  opacity: 0;
+}
+
+.encounter-ball span {
+  position: absolute;
+  left: 50%;
+  top: 51%;
+  width: 28%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 2px solid #18232a;
+  border-radius: 50%;
+  background: #f7f0dc;
+}
+
+.encounter-ball.is-thrown {
+  opacity: 1;
+  animation: throw-ball .9s cubic-bezier(.28,.75,.55,1) forwards;
+}
+
+.encounter-ball.is-caught {
+  opacity: 1;
+  left: 72%;
+  bottom: 36%;
+  animation: caught-ball 1s ease-in-out infinite;
+}
+
+.encounter-dialog {
+  position: absolute;
+  z-index: 12;
+  left: 4%;
+  right: 4%;
+  bottom: 4%;
+  min-height: 21%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 1fr auto;
+  gap: 8px 18px;
+  padding: clamp(12px, 1.6vw, 24px);
+  border: 4px solid #d4c89e;
+  border-radius: 7px;
+  background: #061522f2;
+  box-shadow: inset 0 0 0 4px #1c4355, 0 0 0 3px #061018, 7px 9px #0007;
+}
+
+.encounter-dialog p {
+  align-self: center;
+  margin: 0;
+  color: #f3f4e8;
+  font-size: clamp(7px, .95vw, 14px);
+  line-height: 1.9;
+}
+
+.encounter-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  min-width: clamp(130px, 17vw, 230px);
+}
+
+.encounter-actions button {
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 2px solid #c7a24b;
+  border-radius: 4px;
+  background: #ad3e38;
+  color: #fff8dc;
+  font: inherit;
+  font-size: clamp(5px, .62vw, 9px);
+  box-shadow: inset 0 0 0 2px #f0d87822;
+}
+
+.encounter-actions button.secondary {
+  border-color: #557382;
+  background: #173244;
+}
+
+.encounter-actions button:disabled {
+  opacity: .5;
+}
+
+.encounter-meta {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 2px solid #173649;
+  color: #7ea2b6;
+  font-size: clamp(4px, .5vw, 7px);
+}
+
+@keyframes throw-ball {
+  0% { transform: translate(0, 0) rotate(0); }
+  50% { transform: translate(900%, -480%) rotate(420deg); }
+  100% { transform: translate(1500%, -110%) rotate(760deg); }
+}
+
+@keyframes caught-ball {
+  0%, 100% { transform: rotate(0); }
+  30% { transform: rotate(-16deg); }
+  60% { transform: rotate(16deg); }
+}
+
+@keyframes encounter-hit {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(8px); }
+}
+
+@media (max-width: 680px), (max-aspect-ratio: 1/1) {
+  .game-caught-count {
+    display: none;
+  }
+
+  .encounter-status {
+    left: 4%;
+    top: 7%;
+    width: 53%;
+  }
+
+  .encounter-pokemon {
+    right: 5%;
+    top: 26%;
+    width: 43%;
+  }
+
+  .encounter-dialog {
+    grid-template-columns: 1fr;
+  }
+
+  .encounter-actions {
+    flex-direction: row;
+    min-width: 0;
+  }
+
+  .encounter-actions button {
+    flex: 1;
+  }
+
+  .encounter-meta span:nth-child(2) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .encounter-pokemon.is-targeted,
+  .encounter-ball.is-thrown,
+  .encounter-ball.is-caught {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
