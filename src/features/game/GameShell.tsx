@@ -1,3 +1,6 @@
+import pokemonData from "@/data/pokemons.json";
+import { useCaughtPokemon } from "@/features/pokemon/hooks";
+import type { PokemonData } from "@/features/pokemon/types/pokemon";
 import { useNavigate } from "@tanstack/react-router";
 import {
   Github,
@@ -9,11 +12,13 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ProjectDex from "./ProjectDex";
+import WildEncounter from "./WildEncounter";
 import "./game.css";
 
 type PlayerPosition = { x: number; y: number };
 type LocationAction = "projectdex" | "external" | "wellness" | "mailto" | "menu";
 type LocationVariant = "project" | "api" | "cave" | "wellness" | "contact" | "gate";
+type GrassZone = { x: number; y: number; width: number; height: number };
 
 type GameLocation = {
   id: string;
@@ -145,6 +150,22 @@ const ROCKS = [
   [55, 86],
 ] as const;
 
+const GRASS_ZONES: GrassZone[] = [
+  { x: 36, y: 39, width: 13, height: 9 },
+  { x: 57, y: 39, width: 14, height: 9 },
+  { x: 43, y: 76, width: 17, height: 9 },
+];
+
+const COMMON_ENCOUNTER_IDS = new Set([
+  10, 16, 19, 25, 27, 29, 32, 37, 39, 52, 54, 58, 60, 63, 66, 74, 79,
+  81, 100, 104, 109, 113, 123, 129, 132, 133, 152, 155, 158, 175, 183, 185,
+  202, 212, 214, 252, 258, 282, 311, 312, 448, 658, 807,
+]);
+
+const ENCOUNTER_POOL: PokemonData[] = pokemonData.pokemon.filter((pokemon) =>
+  COMMON_ENCOUNTER_IDS.has(pokemon.id),
+);
+
 const START_POSITION: PlayerPosition = { x: 51.5, y: 53 };
 const MOVE_SPEED = 0.019;
 
@@ -170,6 +191,16 @@ function isBlocked(position: PlayerPosition) {
       position.y < location.y + location.height + margin
     );
   });
+}
+
+function isInsideGrass(position: PlayerPosition) {
+  return GRASS_ZONES.some(
+    (zone) =>
+      position.x >= zone.x &&
+      position.x <= zone.x + zone.width &&
+      position.y >= zone.y &&
+      position.y <= zone.y + zone.height,
+  );
 }
 
 function Building({
@@ -240,12 +271,17 @@ function Building({
 
 export default function GameShell() {
   const navigate = useNavigate();
+  const { caughtPokemon } = useCaughtPokemon();
   const [player, setPlayer] = useState<PlayerPosition>(START_POSITION);
   const [isMoving, setIsMoving] = useState(false);
   const [panel, setPanel] = useState<"projectdex" | "menu" | null>(null);
+  const [activeEncounter, setActiveEncounter] = useState<PokemonData | null>(null);
   const [clock, setClock] = useState(() => new Date());
   const pressedKeys = useRef(new Set<string>());
   const movementRef = useRef(false);
+  const lastEncounterCheckRef = useRef(0);
+
+  const interactionLocked = panel !== null || activeEncounter !== null;
 
   const nearbyLocation = useMemo(() => {
     return (
@@ -303,7 +339,7 @@ export default function GameShell() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (panel) return;
+      if (interactionLocked) return;
 
       const key = event.key.toLowerCase();
       if (
@@ -343,11 +379,11 @@ export default function GameShell() {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
     };
-  }, [interact, nearbyLocation, panel]);
+  }, [interact, interactionLocked, nearbyLocation]);
 
   useEffect(() => {
-    if (panel) pressedKeys.current.clear();
-  }, [panel]);
+    if (interactionLocked) pressedKeys.current.clear();
+  }, [interactionLocked]);
 
   useEffect(() => {
     let frame = 0;
@@ -365,7 +401,7 @@ export default function GameShell() {
       if (keys.has("arrowup") || keys.has("w")) dy -= 1;
       if (keys.has("arrowdown") || keys.has("s")) dy += 1;
 
-      const moving = !panel && (dx !== 0 || dy !== 0);
+      const moving = !interactionLocked && (dx !== 0 || dy !== 0);
       if (moving) {
         const length = Math.hypot(dx, dy) || 1;
         movePlayer(
@@ -384,11 +420,27 @@ export default function GameShell() {
 
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [movePlayer, panel]);
+  }, [interactionLocked, movePlayer]);
 
+  useEffect(() => {
+    if (!isMoving || interactionLocked || !isInsideGrass(player)) return;
+
+    const now = Date.now();
+    if (now - lastEncounterCheckRef.current < 850) return;
+    lastEncounterCheckRef.current = now;
+
+    if (Math.random() > 0.16 || ENCOUNTER_POOL.length === 0) return;
+
+    const pokemon = ENCOUNTER_POOL[Math.floor(Math.random() * ENCOUNTER_POOL.length)];
+    if (pokemon) setActiveEncounter(pokemon);
+  }, [interactionLocked, isMoving, player]);
+
+  const inGrass = isInsideGrass(player);
   const dialogCopy = nearbyLocation
     ? `${nearbyLocation.description} Press E to enter.`
-    : "Welcome to the TDanks Region. Use WASD or the arrow keys to explore the town.";
+    : inGrass
+      ? "The grass is rustling. Keep moving — something may be hiding nearby."
+      : "Welcome to the TDanks Region. Use WASD or the arrow keys to explore the town.";
 
   return (
     <main className="game-shell" aria-label="TDanks Region game portfolio">
@@ -399,6 +451,19 @@ export default function GameShell() {
           <div className="game-path-v" />
           <div className="game-path-h" />
           <div className="game-plaza" />
+
+          {GRASS_ZONES.map((zone, index) => (
+            <span
+              key={`grass-${index}`}
+              className="game-grass-zone"
+              style={{
+                left: `${zone.x}%`,
+                top: `${zone.y}%`,
+                width: `${zone.width}%`,
+                height: `${zone.height}%`,
+              }}
+            />
+          ))}
 
           {TREES.map(([x, y, scale], index) => (
             <span
@@ -457,6 +522,10 @@ export default function GameShell() {
           })}
         </div>
 
+        <div className="game-caught-count">
+          CAUGHT {caughtPokemon.length.toString().padStart(2, "0")}
+        </div>
+
         <section className="game-dialog" aria-live="polite">
           <div className="game-dialog__speaker">T-DEX</div>
           <div className="game-dialog__copy">{dialogCopy}</div>
@@ -484,6 +553,7 @@ export default function GameShell() {
             className="up"
             onClick={() => movePlayer(0, -2.2)}
             aria-label="Move up"
+            disabled={interactionLocked}
           >
             ▲
           </button>
@@ -492,6 +562,7 @@ export default function GameShell() {
             className="left"
             onClick={() => movePlayer(-2.2, 0)}
             aria-label="Move left"
+            disabled={interactionLocked}
           >
             ◀
           </button>
@@ -500,6 +571,7 @@ export default function GameShell() {
             className="action"
             onClick={() => interact(nearbyLocation)}
             aria-label="Interact"
+            disabled={interactionLocked}
           >
             A
           </button>
@@ -508,6 +580,7 @@ export default function GameShell() {
             className="right"
             onClick={() => movePlayer(2.2, 0)}
             aria-label="Move right"
+            disabled={interactionLocked}
           >
             ▶
           </button>
@@ -516,6 +589,7 @@ export default function GameShell() {
             className="down"
             onClick={() => movePlayer(0, 2.2)}
             aria-label="Move down"
+            disabled={interactionLocked}
           >
             ▼
           </button>
@@ -544,8 +618,8 @@ export default function GameShell() {
               <UserRound size={28} color="#f4c459" />
               <h2 id="trainer-menu-title">Tommy&apos;s Trainer Menu</h2>
               <p>
-                Self-taught TypeScript developer from the United Kingdom. Choose
-                a destination.
+                Self-taught TypeScript developer from the United Kingdom. Caught{" "}
+                {caughtPokemon.length} Pokémon so far.
               </p>
               <div className="game-menu-list">
                 <button
@@ -554,6 +628,13 @@ export default function GameShell() {
                   onClick={() => setPanel("projectdex")}
                 >
                   ProjectDex <PackageOpen size={16} />
+                </button>
+                <button
+                  type="button"
+                  className="game-menu-button"
+                  onClick={() => void navigate({ to: "/pokemon-catcher" })}
+                >
+                  Pokémon collection <PackageOpen size={16} />
                 </button>
                 <button
                   type="button"
@@ -587,6 +668,13 @@ export default function GameShell() {
               </div>
             </section>
           </div>
+        ) : null}
+
+        {activeEncounter ? (
+          <WildEncounter
+            pokemon={activeEncounter}
+            onClose={() => setActiveEncounter(null)}
+          />
         ) : null}
       </div>
     </main>
