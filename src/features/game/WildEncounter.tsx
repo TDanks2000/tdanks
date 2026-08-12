@@ -1,6 +1,6 @@
 import { useCaughtPokemon } from "@/features/pokemon/hooks";
 import type { PokemonData } from "@/features/pokemon/types/pokemon";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./encounter.css";
 
 const spriteUrl = (id: number) =>
@@ -18,7 +18,9 @@ export default function WildEncounter({
   const { catchPokemon, isPokemonCaught } = useCaughtPokemon();
   const [state, setState] = useState<EncounterState>("idle");
   const [attempts, setAttempts] = useState(0);
-  const alreadyCaught = isPokemonCaught(pokemon.id);
+  const wasAlreadyCaught = useRef(isPokemonCaught(pokemon.id));
+  const resultTimeoutRef = useRef<number | null>(null);
+  const resetTimeoutRef = useRef<number | null>(null);
 
   const catchChance = useMemo(() => {
     if (pokemon.id >= 144 && pokemon.id <= 151) return 0.38;
@@ -27,39 +29,41 @@ export default function WildEncounter({
     return 0.72;
   }, [pokemon.id]);
 
-  const throwBall = () => {
+  const throwBall = useCallback(() => {
     if (state === "throwing" || state === "caught") return;
 
     setState("throwing");
     setAttempts((current) => current + 1);
 
-    window.setTimeout(() => {
-      if (alreadyCaught || Math.random() <= catchChance) {
+    resultTimeoutRef.current = window.setTimeout(() => {
+      if (wasAlreadyCaught.current || Math.random() <= catchChance) {
         catchPokemon(pokemon);
         setState("caught");
         return;
       }
 
       setState("escaped");
-      window.setTimeout(() => setState("idle"), 700);
+      resetTimeoutRef.current = window.setTimeout(() => setState("idle"), 700);
     }, 900);
-  };
+  }, [catchChance, catchPokemon, pokemon, state]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const key = event.key.toLowerCase();
 
+      if (state === "caught" && (key === "a" || key === "enter" || key === "e")) {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+
       if ((key === "a" || key === "enter" || key === "e") && state !== "caught") {
         event.preventDefault();
         throwBall();
+        return;
       }
 
       if (key === "r" || key === "escape" || key === "b") {
-        event.preventDefault();
-        onClose();
-      }
-
-      if (state === "caught" && (key === "a" || key === "enter" || key === "e")) {
         event.preventDefault();
         onClose();
       }
@@ -67,33 +71,62 @@ export default function WildEncounter({
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [onClose, state]);
+  }, [onClose, state, throwBall]);
+
+  useEffect(() => {
+    return () => {
+      if (resultTimeoutRef.current !== null) {
+        window.clearTimeout(resultTimeoutRef.current);
+      }
+      if (resetTimeoutRef.current !== null) {
+        window.clearTimeout(resetTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <div className="encounter-screen" role="dialog" aria-modal="true" aria-label={`Wild ${pokemon.name} encounter`}>
+    <div
+      className="encounter-screen"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Wild ${pokemon.name} encounter`}
+    >
       <div className="encounter-sky" />
       <div className="encounter-tree-line" />
       <div className="encounter-grass" />
 
       <div className="encounter-status">
         <div className="encounter-status__name">{pokemon.name}</div>
-        <div className="encounter-status__level">Lv. {Math.max(3, Math.min(50, 4 + (pokemon.id % 23)))}</div>
-        <div className="encounter-hp"><span /></div>
+        <div className="encounter-status__level">
+          Lv. {Math.max(3, Math.min(50, 4 + (pokemon.id % 23)))}
+        </div>
+        <div className="encounter-hp">
+          <span />
+        </div>
       </div>
 
-      <div className={`encounter-pokemon ${state === "throwing" ? "is-targeted" : ""}`}>
+      <div
+        className={`encounter-pokemon ${state === "throwing" ? "is-targeted" : ""}`}
+      >
         <img src={spriteUrl(pokemon.id)} alt={pokemon.name} draggable={false} />
         <span className="encounter-shadow" />
       </div>
 
-      <div className={`encounter-ball ${state === "throwing" ? "is-thrown" : ""} ${state === "caught" ? "is-caught" : ""}`} aria-hidden="true">
+      <div
+        className={`encounter-ball ${state === "throwing" ? "is-thrown" : ""} ${state === "caught" ? "is-caught" : ""}`}
+        aria-hidden="true"
+      >
         <span />
       </div>
 
       <section className="encounter-dialog" aria-live="polite">
         <p>
           {state === "caught"
-            ? `${pokemon.name} was caught!${alreadyCaught ? " It was already registered in your collection." : " Added to your collection."}`
+            ? `${pokemon.name} was caught!${
+                wasAlreadyCaught.current
+                  ? " It was already registered in your collection."
+                  : " Added to your collection."
+              }`
             : state === "throwing"
               ? "The Poké Ball is shaking..."
               : state === "escaped"
@@ -103,13 +136,24 @@ export default function WildEncounter({
 
         <div className="encounter-actions">
           {state === "caught" ? (
-            <button type="button" onClick={onClose}>Continue</button>
+            <button type="button" onClick={onClose}>
+              Continue
+            </button>
           ) : (
             <>
-              <button type="button" onClick={throwBall} disabled={state === "throwing"}>
+              <button
+                type="button"
+                onClick={throwBall}
+                disabled={state === "throwing"}
+              >
                 Throw Ball
               </button>
-              <button type="button" className="secondary" onClick={onClose} disabled={state === "throwing"}>
+              <button
+                type="button"
+                className="secondary"
+                onClick={onClose}
+                disabled={state === "throwing"}
+              >
                 Run
               </button>
             </>
@@ -118,7 +162,11 @@ export default function WildEncounter({
 
         <div className="encounter-meta">
           <span>#{pokemon.pokedexNumber}</span>
-          <span>{attempts > 0 ? `${attempts} throw${attempts === 1 ? "" : "s"}` : "A / Enter: Throw"}</span>
+          <span>
+            {attempts > 0
+              ? `${attempts} throw${attempts === 1 ? "" : "s"}`
+              : "A / Enter: Throw"}
+          </span>
           <span>R / B: Run</span>
         </div>
       </section>
