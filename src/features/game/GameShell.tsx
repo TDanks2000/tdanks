@@ -10,12 +10,21 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import ProjectDex from "./ProjectDex";
 import WildEncounter from "./WildEncounter";
 import "./game.css";
 
 type PlayerPosition = { x: number; y: number };
+type PlayerVelocity = { x: number; y: number };
+type Direction = "up" | "down" | "left" | "right";
 type LocationAction = "projectdex" | "external" | "wellness" | "mailto" | "menu";
 type LocationVariant = "project" | "api" | "cave" | "wellness" | "contact" | "gate";
 type GrassZone = { x: number; y: number; width: number; height: number };
@@ -167,7 +176,25 @@ const ENCOUNTER_POOL: PokemonData[] = pokemonData.pokemon.filter((pokemon) =>
 );
 
 const START_POSITION: PlayerPosition = { x: 51.5, y: 53 };
-const MOVE_SPEED = 0.019;
+const MOVE_SPEED = 0.0185;
+const ACCELERATION_TIME_MS = 55;
+const DECELERATION_TIME_MS = 38;
+const MIN_VELOCITY = 0.00015;
+const PLAYER_MIN_X = 10.5;
+const PLAYER_MAX_X = 96.5;
+const PLAYER_MIN_Y = 8.5;
+const PLAYER_MAX_Y = 94;
+
+const KEY_DIRECTIONS: Record<string, Direction> = {
+  arrowup: "up",
+  w: "up",
+  arrowdown: "down",
+  s: "down",
+  arrowleft: "left",
+  a: "left",
+  arrowright: "right",
+  d: "right",
+};
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -191,6 +218,39 @@ function isBlocked(position: PlayerPosition) {
       position.y < location.y + location.height + margin
     );
   });
+}
+
+function resolveMovement(
+  current: PlayerPosition,
+  dx: number,
+  dy: number,
+): { position: PlayerPosition; blockedX: boolean; blockedY: boolean } {
+  let x = current.x;
+  let y = current.y;
+  let blockedX = false;
+  let blockedY = false;
+
+  if (dx !== 0) {
+    const candidateX = clamp(current.x + dx, PLAYER_MIN_X, PLAYER_MAX_X);
+    const candidate = { x: candidateX, y };
+    if (isBlocked(candidate)) {
+      blockedX = true;
+    } else {
+      x = candidateX;
+    }
+  }
+
+  if (dy !== 0) {
+    const candidateY = clamp(current.y + dy, PLAYER_MIN_Y, PLAYER_MAX_Y);
+    const candidate = { x, y: candidateY };
+    if (isBlocked(candidate)) {
+      blockedY = true;
+    } else {
+      y = candidateY;
+    }
+  }
+
+  return { position: { x, y }, blockedX, blockedY };
 }
 
 function isInsideGrass(position: PlayerPosition) {
@@ -277,11 +337,18 @@ export default function GameShell() {
   const [panel, setPanel] = useState<"projectdex" | "menu" | null>(null);
   const [activeEncounter, setActiveEncounter] = useState<PokemonData | null>(null);
   const [clock, setClock] = useState(() => new Date());
+
+  const playerRef = useRef<PlayerPosition>(START_POSITION);
+  const velocityRef = useRef<PlayerVelocity>({ x: 0, y: 0 });
   const pressedKeys = useRef(new Set<string>());
+  const heldDirections = useRef(new Set<Direction>());
   const movementRef = useRef(false);
+  const interactionLockedRef = useRef(false);
+  const nearbyLocationRef = useRef<GameLocation | null>(null);
   const lastEncounterCheckRef = useRef(0);
 
   const interactionLocked = panel !== null || activeEncounter !== null;
+  interactionLockedRef.current = interactionLocked;
 
   const nearbyLocation = useMemo(() => {
     return (
@@ -293,16 +360,33 @@ export default function GameShell() {
         .sort((a, b) => a.distance - b.distance)[0]?.location ?? null
     );
   }, [player]);
+  nearbyLocationRef.current = nearbyLocation;
 
-  const movePlayer = useCallback((dx: number, dy: number) => {
-    setPlayer((current) => {
-      const next = {
-        x: clamp(current.x + dx, 10.5, 96.5),
-        y: clamp(current.y + dy, 8.5, 94),
-      };
+  const setMovingState = useCallback((moving: boolean) => {
+    if (movementRef.current === moving) return;
+    movementRef.current = moving;
+    setIsMoving(moving);
+  }, []);
 
-      return isBlocked(next) ? current : next;
-    });
+  const clearMovementInput = useCallback(() => {
+    pressedKeys.current.clear();
+    heldDirections.current.clear();
+    velocityRef.current = { x: 0, y: 0 };
+    setMovingState(false);
+  }, [setMovingState]);
+
+  const movePlayerBy = useCallback((dx: number, dy: number) => {
+    const current = playerRef.current;
+    const result = resolveMovement(current, dx, dy);
+    const moved =
+      result.position.x !== current.x || result.position.y !== current.y;
+
+    if (moved) {
+      playerRef.current = result.position;
+      setPlayer(result.position);
+    }
+
+    return result;
   }, []);
 
   const interact = useCallback(
@@ -332,6 +416,34 @@ export default function GameShell() {
     [navigate],
   );
 
+  const setTouchDirection = useCallback((direction: Direction, active: boolean) => {
+    if (active) {
+      if (!interactionLockedRef.current) heldDirections.current.add(direction);
+    } else {
+      heldDirections.current.delete(direction);
+    }
+  }, []);
+
+  const beginTouchMovement = useCallback(
+    (direction: Direction, event: ReactPointerEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      event.currentTarget.setPointerCapture(event.pointerId);
+      setTouchDirection(direction, true);
+    },
+    [setTouchDirection],
+  );
+
+  const endTouchMovement = useCallback(
+    (direction: Direction, event: ReactPointerEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      setTouchDirection(direction, false);
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
+    },
+    [setTouchDirection],
+  );
+
   useEffect(() => {
     const timer = window.setInterval(() => setClock(new Date()), 30_000);
     return () => window.clearInterval(timer);
@@ -339,28 +451,20 @@ export default function GameShell() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (interactionLocked) return;
-
       const key = event.key.toLowerCase();
-      if (
-        [
-          "arrowup",
-          "arrowdown",
-          "arrowleft",
-          "arrowright",
-          "w",
-          "a",
-          "s",
-          "d",
-        ].includes(key)
-      ) {
+      const direction = KEY_DIRECTIONS[key];
+
+      if (direction) {
         event.preventDefault();
-        pressedKeys.current.add(key);
+        if (!interactionLockedRef.current) pressedKeys.current.add(key);
+        return;
       }
+
+      if (interactionLockedRef.current) return;
 
       if ((key === "e" || key === "enter") && !event.repeat) {
         event.preventDefault();
-        interact(nearbyLocation);
+        interact(nearbyLocationRef.current);
       }
 
       if (key === "m" && !event.repeat) {
@@ -373,17 +477,27 @@ export default function GameShell() {
       pressedKeys.current.delete(event.key.toLowerCase());
     };
 
+    const onBlur = () => clearMovementInput();
+    const onVisibilityChange = () => {
+      if (document.hidden) clearMovementInput();
+    };
+
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
+    window.addEventListener("blur", onBlur);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
     return () => {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
+      window.removeEventListener("blur", onBlur);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [interact, interactionLocked, nearbyLocation]);
+  }, [clearMovementInput, interact]);
 
   useEffect(() => {
-    if (interactionLocked) pressedKeys.current.clear();
-  }, [interactionLocked]);
+    if (interactionLocked) clearMovementInput();
+  }, [clearMovementInput, interactionLocked]);
 
   useEffect(() => {
     let frame = 0;
@@ -392,38 +506,56 @@ export default function GameShell() {
     const tick = (now: number) => {
       const delta = Math.min(now - previous, 32);
       previous = now;
+
+      if (interactionLockedRef.current) {
+        velocityRef.current = { x: 0, y: 0 };
+        setMovingState(false);
+        frame = requestAnimationFrame(tick);
+        return;
+      }
+
+      let inputX = 0;
+      let inputY = 0;
       const keys = pressedKeys.current;
-      let dx = 0;
-      let dy = 0;
+      const touch = heldDirections.current;
 
-      if (keys.has("arrowleft") || keys.has("a")) dx -= 1;
-      if (keys.has("arrowright") || keys.has("d")) dx += 1;
-      if (keys.has("arrowup") || keys.has("w")) dy -= 1;
-      if (keys.has("arrowdown") || keys.has("s")) dy += 1;
+      if (keys.has("arrowleft") || keys.has("a") || touch.has("left")) inputX -= 1;
+      if (keys.has("arrowright") || keys.has("d") || touch.has("right")) inputX += 1;
+      if (keys.has("arrowup") || keys.has("w") || touch.has("up")) inputY -= 1;
+      if (keys.has("arrowdown") || keys.has("s") || touch.has("down")) inputY += 1;
 
-      const moving = !interactionLocked && (dx !== 0 || dy !== 0);
-      if (moving) {
-        const length = Math.hypot(dx, dy) || 1;
-        movePlayer(
-          (dx / length) * MOVE_SPEED * delta,
-          (dy / length) * MOVE_SPEED * delta,
-        );
-      }
+      const hasInput = inputX !== 0 || inputY !== 0;
+      const length = Math.hypot(inputX, inputY) || 1;
+      const targetX = hasInput ? (inputX / length) * MOVE_SPEED : 0;
+      const targetY = hasInput ? (inputY / length) * MOVE_SPEED : 0;
+      const responseTime = hasInput ? ACCELERATION_TIME_MS : DECELERATION_TIME_MS;
+      const response = 1 - Math.exp(-delta / responseTime);
 
-      if (movementRef.current !== moving) {
-        movementRef.current = moving;
-        setIsMoving(moving);
-      }
+      const velocity = velocityRef.current;
+      velocity.x += (targetX - velocity.x) * response;
+      velocity.y += (targetY - velocity.y) * response;
+
+      if (!hasInput && Math.abs(velocity.x) < MIN_VELOCITY) velocity.x = 0;
+      if (!hasInput && Math.abs(velocity.y) < MIN_VELOCITY) velocity.y = 0;
+
+      const result = movePlayerBy(velocity.x * delta, velocity.y * delta);
+      if (result.blockedX) velocity.x = 0;
+      if (result.blockedY) velocity.y = 0;
+
+      const actuallyMoving =
+        Math.abs(velocity.x) >= MIN_VELOCITY ||
+        Math.abs(velocity.y) >= MIN_VELOCITY;
+      setMovingState(actuallyMoving);
 
       frame = requestAnimationFrame(tick);
     };
 
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [interactionLocked, movePlayer]);
+  }, [movePlayerBy, setMovingState]);
 
   useEffect(() => {
-    if (interactionLocked || !isInsideGrass(player)) return;
+    if (interactionLocked || !isMoving || !isInsideGrass(player)) return;
 
     const now = Date.now();
     if (now - lastEncounterCheckRef.current < 850) return;
@@ -433,7 +565,7 @@ export default function GameShell() {
 
     const pokemon = ENCOUNTER_POOL[Math.floor(Math.random() * ENCOUNTER_POOL.length)];
     if (pokemon) setActiveEncounter(pokemon);
-  }, [interactionLocked, player]);
+  }, [interactionLocked, isMoving, player]);
 
   const inGrass = isInsideGrass(player);
   const dialogCopy = nearbyLocation
@@ -474,7 +606,7 @@ export default function GameShell() {
                   left: `${x}%`,
                   top: `${y}%`,
                   "--tree-scale": scale,
-                } as React.CSSProperties
+                } as CSSProperties
               }
             />
           ))}
@@ -551,7 +683,10 @@ export default function GameShell() {
           <button
             type="button"
             className="up"
-            onClick={() => movePlayer(0, -2.2)}
+            onPointerDown={(event) => beginTouchMovement("up", event)}
+            onPointerUp={(event) => endTouchMovement("up", event)}
+            onPointerCancel={(event) => endTouchMovement("up", event)}
+            onLostPointerCapture={() => setTouchDirection("up", false)}
             aria-label="Move up"
             disabled={interactionLocked}
           >
@@ -560,7 +695,10 @@ export default function GameShell() {
           <button
             type="button"
             className="left"
-            onClick={() => movePlayer(-2.2, 0)}
+            onPointerDown={(event) => beginTouchMovement("left", event)}
+            onPointerUp={(event) => endTouchMovement("left", event)}
+            onPointerCancel={(event) => endTouchMovement("left", event)}
+            onLostPointerCapture={() => setTouchDirection("left", false)}
             aria-label="Move left"
             disabled={interactionLocked}
           >
@@ -578,7 +716,10 @@ export default function GameShell() {
           <button
             type="button"
             className="right"
-            onClick={() => movePlayer(2.2, 0)}
+            onPointerDown={(event) => beginTouchMovement("right", event)}
+            onPointerUp={(event) => endTouchMovement("right", event)}
+            onPointerCancel={(event) => endTouchMovement("right", event)}
+            onLostPointerCapture={() => setTouchDirection("right", false)}
             aria-label="Move right"
             disabled={interactionLocked}
           >
@@ -587,7 +728,10 @@ export default function GameShell() {
           <button
             type="button"
             className="down"
-            onClick={() => movePlayer(0, 2.2)}
+            onPointerDown={(event) => beginTouchMovement("down", event)}
+            onPointerUp={(event) => endTouchMovement("down", event)}
+            onPointerCancel={(event) => endTouchMovement("down", event)}
+            onLostPointerCapture={() => setTouchDirection("down", false)}
             aria-label="Move down"
             disabled={interactionLocked}
           >

@@ -263,9 +263,9 @@
   width: clamp(16px, 1.7vw, 28px);
   height: clamp(22px, 2.25vw, 36px);
   transform: translate(-50%, -78%);
-  transition: left 45ms linear, top 45ms linear;
   filter: drop-shadow(2px 4px 0 #10251b88);
   pointer-events: none;
+  will-change: left, top;
 }
 
 .game-player__head {
@@ -313,8 +313,8 @@
   background: linear-gradient(90deg, #162630 0 43%, #41b6aa 44% 57%, #162630 58%);
 }
 
-.game-player.is-moving { animation: game-player-bob 180ms steps(2) infinite; }
-@keyframes game-player-bob { 50% { margin-top: -3px; } }
+.game-player.is-moving { animation: game-player-bob 220ms steps(2) infinite; }
+@keyframes game-player-bob { 50% { margin-top: -1px; } }
 
 .game-hud {
   position: absolute;
@@ -517,7 +517,13 @@
     color: white;
     font: inherit;
     font-size: 10px;
-    touch-action: manipulation;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .game-dpad button:active:not(:disabled) {
+    transform: translateY(1px);
+    filter: brightness(1.25);
   }
   .game-dpad .up { grid-column: 2; }
   .game-dpad .left { grid-column: 1; grid-row: 2; }
@@ -532,7 +538,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .game-player,
   .game-building__body { transition: none; }
   .game-player.is-moving,
   .game-dialog__prompt { animation: none; }
