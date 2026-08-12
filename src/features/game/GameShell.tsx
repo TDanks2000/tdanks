@@ -157,9 +157,9 @@ const GRASS_ZONES: GrassZone[] = [
 ];
 
 const COMMON_ENCOUNTER_IDS = new Set([
-  10, 16, 19, 25, 27, 29, 32, 37, 39, 52, 54, 58, 60, 63, 66, 74, 79,
-  81, 100, 104, 109, 113, 123, 129, 132, 133, 152, 155, 158, 175, 183, 185,
-  202, 212, 214, 252, 258, 282, 311, 312, 448, 658, 807,
+  10, 16, 19, 25, 27, 29, 32, 37, 39, 52, 54, 58, 60, 63, 66, 74, 79, 81,
+  100, 104, 109, 113, 123, 129, 132, 133, 152, 155, 158, 175, 183, 185, 202, 212,
+  214, 252, 258, 282, 311, 312, 448, 658, 807,
 ]);
 
 const ENCOUNTER_POOL: PokemonData[] = pokemonData.pokemon.filter((pokemon) =>
@@ -423,7 +423,7 @@ export default function GameShell() {
   }, [interactionLocked, movePlayer]);
 
   useEffect(() => {
-    if (!isMoving || interactionLocked || !isInsideGrass(player)) return;
+    if (interactionLocked || !isInsideGrass(player)) return;
 
     const now = Date.now();
     if (now - lastEncounterCheckRef.current < 850) return;
@@ -433,7 +433,7 @@ export default function GameShell() {
 
     const pokemon = ENCOUNTER_POOL[Math.floor(Math.random() * ENCOUNTER_POOL.length)];
     if (pokemon) setActiveEncounter(pokemon);
-  }, [interactionLocked, isMoving, player]);
+  }, [interactionLocked, player]);
 
   const inGrass = isInsideGrass(player);
   const dialogCopy = nearbyLocation
