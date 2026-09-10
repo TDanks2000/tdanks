@@ -8,96 +8,51 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 
-const PokemonCatcherLazyRouteImport = createFileRoute('/pokemon-catcher')()
-const IndexLazyRouteImport = createFileRoute('/')()
-const MentalHealthQuoteLazyRouteImport = createFileRoute(
-  '/mental-health/quote',
-)()
-
-const PokemonCatcherLazyRoute = PokemonCatcherLazyRouteImport.update({
-  id: '/pokemon-catcher',
-  path: '/pokemon-catcher',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/pokemon-catcher.lazy').then((d) => d.Route),
-)
-const IndexLazyRoute = IndexLazyRouteImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
-const MentalHealthQuoteLazyRoute = MentalHealthQuoteLazyRouteImport.update({
-  id: '/mental-health/quote',
-  path: '/mental-health/quote',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/mental-health/quote.lazy').then((d) => d.Route),
-)
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
-  '/pokemon-catcher': typeof PokemonCatcherLazyRoute
-  '/mental-health/quote': typeof MentalHealthQuoteLazyRoute
+  '/': typeof IndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '/pokemon-catcher': typeof PokemonCatcherLazyRoute
-  '/mental-health/quote': typeof MentalHealthQuoteLazyRoute
+  '/': typeof IndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexLazyRoute
-  '/pokemon-catcher': typeof PokemonCatcherLazyRoute
-  '/mental-health/quote': typeof MentalHealthQuoteLazyRoute
+  '/': typeof IndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/pokemon-catcher' | '/mental-health/quote'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/pokemon-catcher' | '/mental-health/quote'
-  id: '__root__' | '/' | '/pokemon-catcher' | '/mental-health/quote'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  PokemonCatcherLazyRoute: typeof PokemonCatcherLazyRoute
-  MentalHealthQuoteLazyRoute: typeof MentalHealthQuoteLazyRoute
+  IndexRoute: typeof IndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/pokemon-catcher': {
-      id: '/pokemon-catcher'
-      path: '/pokemon-catcher'
-      fullPath: '/pokemon-catcher'
-      preLoaderRoute: typeof PokemonCatcherLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mental-health/quote': {
-      id: '/mental-health/quote'
-      path: '/mental-health/quote'
-      fullPath: '/mental-health/quote'
-      preLoaderRoute: typeof MentalHealthQuoteLazyRouteImport
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
-  PokemonCatcherLazyRoute: PokemonCatcherLazyRoute,
-  MentalHealthQuoteLazyRoute: MentalHealthQuoteLazyRoute,
+  IndexRoute: IndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
