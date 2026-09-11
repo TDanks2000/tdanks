@@ -72,7 +72,7 @@ export const OtherProjects = () => {
 	const repos = live && live.length > 0 ? live : fallbackRepos;
 
 	return (
-		<section id="projects" className="bg-[#faf9f6]">
+		<section id="projects" className="bg-background">
 			<div className="mx-auto max-w-6xl px-4 py-5 sm:px-6">
 				<SectionHeading
 					index="03"
@@ -92,19 +92,19 @@ export const OtherProjects = () => {
 								href={repo.html_url}
 								target="_blank"
 								rel="noreferrer"
-								className="flex flex-col rounded-[4px] border border-neutral-900/10 bg-white/20 p-4 transition-colors hover:border-neutral-900/25 hover:bg-white/60"
+								className="flex flex-col rounded-[4px] border border-neutral-900/10 bg-white/20 p-4 transition-colors hover:border-neutral-900/25 hover:bg-white/60 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-white/20 dark:hover:bg-white/[0.06]"
 							>
 								<p className="flex items-center gap-2">
 									<Icon className={`size-6 shrink-0 ${iconClass}`} />
-									<span className="truncate text-[12px] font-bold text-neutral-900">
+									<span className="truncate text-[12px] font-bold text-neutral-900 dark:text-neutral-100">
 										{prettyName(repo.name)}
 									</span>
-									<span className="ml-auto inline-flex shrink-0 items-center gap-1 text-[11px] font-medium text-neutral-400">
+									<span className="ml-auto inline-flex shrink-0 items-center gap-1 text-[11px] font-medium text-neutral-400 dark:text-neutral-500">
 										<Star className="size-3" />
 										{repo.stargazers_count}
 									</span>
 								</p>
-								<p className="mt-3 flex-1 text-[13px] leading-relaxed text-neutral-500">
+								<p className="mt-3 flex-1 text-[13px] leading-relaxed text-neutral-500 dark:text-neutral-400">
 									{shortDescription(repo.description)}
 								</p>
 								<div className="mt-4 flex flex-wrap gap-1.5">
@@ -116,21 +116,21 @@ export const OtherProjects = () => {
 						);
 					})}
 
-					<div className="flex flex-col rounded-[4px] border border-neutral-900/10 bg-white/20 p-4">
+					<div className="flex flex-col rounded-[4px] border border-neutral-900/10 bg-white/20 p-4 dark:border-white/10 dark:bg-white/[0.03]">
 						<p className="flex items-center gap-2">
-							<LayoutGrid className="size-6 shrink-0 text-neutral-500" />
-							<span className="text-[12px] font-bold text-neutral-900">
+							<LayoutGrid className="size-6 shrink-0 text-neutral-500 dark:text-neutral-400" />
+							<span className="text-[12px] font-bold text-neutral-900 dark:text-neutral-100">
 								+ more projects
 							</span>
 						</p>
-						<p className="mt-3 flex-1 text-[13px] leading-relaxed text-neutral-500">
+						<p className="mt-3 flex-1 text-[13px] leading-relaxed text-neutral-500 dark:text-neutral-400">
 							Lots of small experiments, games and random ideas.
 						</p>
 						<a
 							href="https://github.com/TDanks2000"
 							target="_blank"
 							rel="noreferrer"
-							className="mt-2 inline-flex h-9 w-fit items-center gap-2 rounded-md border border-neutral-900/25 px-4 text-[13px] font-medium text-neutral-900 transition-colors hover:bg-neutral-900/5"
+							className="mt-2 inline-flex h-9 w-fit items-center gap-2 rounded-md border border-neutral-900/25 px-4 text-[13px] font-medium text-neutral-900 transition-colors hover:bg-neutral-900/5 dark:border-white/20 dark:text-neutral-100 dark:hover:bg-white/10"
 						>
 							View all
 							<ArrowRight className="size-3.5" />
