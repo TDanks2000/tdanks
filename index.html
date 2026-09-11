@@ -4,7 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="description" content="Tommy Danks — UK developer building web products, developer tools, and things for games and the internet." />
+    <script>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const isDark = storedTheme === "dark" || (storedTheme !== "light" && prefersDark);
+          document.documentElement.classList.toggle("dark", isDark);
+          document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+        } catch {}
+      })();
+    </script>
     <title>Tommy Danks — Developer &amp; Product Builder</title>
   </head>
   <body>

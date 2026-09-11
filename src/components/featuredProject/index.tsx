@@ -23,7 +23,7 @@ const screenshots = [
 
 export const FeaturedProject = () => {
 	return (
-		<section id="work" className="bg-[#faf9f6]">
+		<section id="work" className="bg-background">
 			<div className="mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-6">
 				<SectionHeading
 					index="01"
@@ -41,16 +41,16 @@ export const FeaturedProject = () => {
 								/>
 							</span>
 							<span>
-								<span className="block text-3xl font-extrabold tracking-tight text-neutral-950">
+								<span className="block text-3xl font-extrabold tracking-tight text-neutral-950 dark:text-neutral-50">
 									Recap.Games
 								</span>
-								<span className="mt-1 block font-serif text-[17px] text-neutral-600">
+								<span className="mt-1 block font-serif text-[17px] text-neutral-600 dark:text-neutral-400">
 									Game announcement and event recap platform.
 								</span>
 							</span>
 						</div>
 
-						<p className="mt-5 max-w-lg text-[15px] leading-relaxed text-neutral-600">
+						<p className="mt-5 max-w-lg text-[15px] leading-relaxed text-neutral-600 dark:text-neutral-400">
 							Recap.Games makes showcase reveals, trailers and release
 							information easier to discover. Follow events, browse
 							announcements, and never miss what&rsquo;s next in gaming.
@@ -76,7 +76,7 @@ export const FeaturedProject = () => {
 					</div>
 
 					<div className="relative mt-5 min-w-0">
-						<div className="pointer-events-none absolute -top-5 left-[2%] z-10 flex origin-bottom-left -rotate-6 items-start gap-1 font-hand text-[16px] leading-tight text-neutral-600 sm:text-lg">
+						<div className="pointer-events-none absolute -top-5 left-[2%] z-10 flex origin-bottom-left -rotate-6 items-start gap-1 font-hand text-[16px] leading-tight text-neutral-600 dark:text-neutral-400 sm:text-lg">
 							<svg
 								viewBox="0 0 40 40"
 								fill="none"
@@ -102,7 +102,7 @@ export const FeaturedProject = () => {
 								<div
 									key={screenshot.src}
 									className={
-										"absolute grid min-w-0 place-items-center overflow-hidden rounded-lg border border-neutral-900/15 bg-white text-center shadow-lg " +
+										"absolute grid min-w-0 place-items-center overflow-hidden rounded-lg border border-neutral-900/15 bg-white text-center shadow-lg dark:border-white/15 dark:bg-neutral-900 " +
 										(i === 0
 											? "top-[23%] left-[3%] h-[59%] w-[31%] -rotate-[7deg]"
 											: i === 1
@@ -122,10 +122,10 @@ export const FeaturedProject = () => {
 								</div>
 							))}
 							<Gamepad2
-								className="pointer-events-none absolute bottom-[1%] left-[-1%] size-9 -rotate-12 text-neutral-600/80 sm:size-11"
+								className="pointer-events-none absolute bottom-[1%] left-[-1%] size-9 -rotate-12 text-neutral-600/80 dark:text-neutral-400 sm:size-11"
 								strokeWidth={1.35}
 							/>
-							<p className="absolute bottom-[-7%] left-[10%] w-[27%] -rotate-6 text-center leading-tight font-hand text-sm text-neutral-600 sm:text-lg">
+							<p className="absolute bottom-[-7%] left-[10%] w-[27%] -rotate-6 text-center leading-tight font-hand text-sm text-neutral-600 dark:text-neutral-400 sm:text-lg">
 								A cleaner view of what&rsquo;s next.
 							</p>
 						</div>

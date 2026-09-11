@@ -80,16 +80,26 @@
 }
 
 :root {
+  color-scheme: light;
   --radius: 0.375rem;
   --background: #faf9f6;
   --foreground: #090f18;
   --border: #d9dde0;
   --ring: #287cff;
 }
+.dark {
+  color-scheme: dark;
+  --background: #111214;
+  --foreground: #f5f5f4;
+  --border: #303238;
+  --ring: #60a5fa;
+}
 html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 body { margin: 0; min-width: 0; -webkit-font-smoothing: antialiased; }
 a:focus-visible, button:focus-visible { outline: 2px solid #287cff; outline-offset: 5px; }
+.dark a:focus-visible, .dark button:focus-visible { outline-color: #60a5fa; }
 ::selection { background: #d6e7ff; color: #090f18; }
+.dark ::selection { background: #1d4f7a; color: #f8fafc; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }

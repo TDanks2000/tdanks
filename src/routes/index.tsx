@@ -11,7 +11,7 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <main className="min-h-svh bg-[#faf9f6]">
+    <main className="min-h-svh bg-background">
       <Hero />
       <FeaturedProject />
       <DevTools />
